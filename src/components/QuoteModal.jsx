@@ -24,7 +24,7 @@ export default function QuoteModal({ isOpen, onClose }) {
         right: 0,
         bottom: 0,
         zIndex: 2000,
-        backgroundColor: 'rgba(9, 13, 20, 0.85)',
+        backgroundColor: 'rgba(17, 29, 48, 0.92)',
         backdropFilter: 'blur(8px)',
         display: 'flex',
         alignItems: 'center',
@@ -39,10 +39,10 @@ export default function QuoteModal({ isOpen, onClose }) {
           maxWidth: '560px',
           maxHeight: '92vh',
           overflowY: 'auto',
-          backgroundColor: '#0F1724',
+          backgroundColor: '#16263E',
           borderRadius: '16px',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: '0 25px 50px -12px rgba(15, 30, 54, 0.6)',
           color: '#F8FAFC',
           position: 'relative',
         }}
@@ -56,7 +56,7 @@ export default function QuoteModal({ isOpen, onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: 'linear-gradient(135deg, #151F2E 0%, #0F1724 100%)',
+            background: 'linear-gradient(135deg, #1C3050 0%, #16263E 100%)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

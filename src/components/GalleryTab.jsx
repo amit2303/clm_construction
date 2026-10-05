@@ -30,13 +30,13 @@ export default function GalleryTab({ onOpenQuoteModal }) {
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.75) 100%), url("/project_gallery/gallery-1.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.94) 30%, rgba(28, 48, 77, 0.8) 100%), url("/project_gallery/gallery-1.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
           padding: '85px 0 65px 0',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div className="container">
@@ -124,7 +124,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   e.currentTarget.style.borderColor = '#E2E8F0';
                 }}
               >
-                <div style={{ position: 'relative', height: '240px', overflow: 'hidden', backgroundColor: '#090D14' }}>
+                <div style={{ position: 'relative', height: '240px', overflow: 'hidden', backgroundColor: '#16263E' }}>
                   <img
                     src={item.src}
                     alt={item.title}
@@ -135,7 +135,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                       position: 'absolute',
                       top: '12px',
                       left: '12px',
-                      backgroundColor: 'rgba(9, 13, 20, 0.85)',
+                      backgroundColor: 'rgba(17, 29, 48, 0.88)',
                       backdropFilter: 'blur(8px)',
                       color: '#F59E0B',
                       fontSize: '0.75rem',
@@ -197,11 +197,11 @@ export default function GalleryTab({ onOpenQuoteModal }) {
               position: 'relative',
               marginTop: '70px',
               padding: '45px 36px',
-              backgroundColor: '#0F1724',
+              backgroundColor: '#16263E',
               borderRadius: '16px',
               color: '#FFFFFF',
               textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.1)',
               overflow: 'hidden',
             }}
           >
@@ -238,7 +238,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             right: 0,
             bottom: 0,
             zIndex: 3000,
-            backgroundColor: 'rgba(9, 13, 20, 0.95)',
+            backgroundColor: 'rgba(17, 29, 48, 0.96)',
             backdropFilter: 'blur(16px)',
             display: 'flex',
             alignItems: 'center',
@@ -252,11 +252,11 @@ export default function GalleryTab({ onOpenQuoteModal }) {
               position: 'relative',
               maxWidth: '1000px',
               width: '100%',
-              backgroundColor: '#0F1724',
+              backgroundColor: '#16263E',
               borderRadius: '14px',
-              border: '1px solid rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.14)',
               overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(0,0,0,0.8)',
+              boxShadow: '0 25px 60px rgba(15,30,54,0.6)',
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -266,7 +266,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             <div
               style={{
                 padding: '16px 24px',
-                backgroundColor: '#090D14',
+                backgroundColor: '#111D30',
                 borderBottom: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex',
                 alignItems: 'center',
@@ -349,7 +349,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   left: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                  backgroundColor: 'rgba(17, 29, 48, 0.85)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   color: '#FFFFFF',
                   borderRadius: '50%',
@@ -373,7 +373,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   right: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                  backgroundColor: 'rgba(17, 29, 48, 0.85)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   color: '#FFFFFF',
                   borderRadius: '50%',
@@ -390,7 +390,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             </div>
 
             {/* Bottom Caption */}
-            <div style={{ padding: '20px 24px', backgroundColor: '#0F1724', color: '#FFFFFF' }}>
+            <div style={{ padding: '20px 24px', backgroundColor: '#16263E', color: '#FFFFFF' }}>
               <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
                 {selectedItem.title}
               </h3>

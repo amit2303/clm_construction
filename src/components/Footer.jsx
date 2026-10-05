@@ -52,11 +52,11 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
   return (
     <footer
       style={{
-        backgroundColor: '#090D14',
+        backgroundColor: '#111D30',
         color: '#CBD5E1',
         paddingTop: '65px',
         paddingBottom: '30px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         position: 'relative',
       }}
     >

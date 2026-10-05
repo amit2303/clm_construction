@@ -54,13 +54,13 @@ export default function AboutTab({ onOpenQuoteModal }) {
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.75) 100%), url("/project_gallery/gallery-5.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.94) 30%, rgba(28, 48, 77, 0.8) 100%), url("/project_gallery/gallery-5.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
           padding: '85px 0 65px 0',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div className="container">
@@ -220,7 +220,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
       </section>
 
       {/* Leadership & Contractors Section */}
-      <section className="section-padding" style={{ backgroundColor: '#090D14', color: '#FFFFFF' }}>
+      <section className="section-padding" style={{ backgroundColor: '#111D30', color: '#FFFFFF' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
@@ -236,11 +236,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
               <div
                 key={person.id || idx}
                 style={{
-                  backgroundColor: '#0F1724',
+                  backgroundColor: '#16263E',
                   borderRadius: '16px',
                   padding: 'clamp(22px, 3.5vw, 36px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 12px 36px rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 12px 36px rgba(15,30,54,0.3)',
                   position: 'relative',
                 }}
               >
@@ -442,7 +442,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
       </section>
 
       {/* Skilled Workforce & Operational Pillars */}
-      <section className="section-padding" style={{ backgroundColor: '#090D14', color: '#FFFFFF' }}>
+      <section className="section-padding" style={{ backgroundColor: '#111D30', color: '#FFFFFF' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 60px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
@@ -454,7 +454,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
           </div>
 
           <div className="responsive-grid-small">
-            <div style={{ backgroundColor: '#0F1724', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ color: '#F59E0B', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
                 Pillar 1
               </div>
@@ -466,7 +466,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
               </p>
             </div>
 
-            <div style={{ backgroundColor: '#0F1724', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ color: '#EAB308', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
                 Pillar 2
               </div>
@@ -478,7 +478,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
               </p>
             </div>
 
-            <div style={{ backgroundColor: '#0F1724', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ color: '#D4AF37', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
                 Pillar 3
               </div>

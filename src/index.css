@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  /* Architectural Deep Tones */
-  --color-dark-bg: #090D14;
-  --color-dark-surface: #0F1724;
-  --color-dark-card: #151F2E;
-  --color-dark-border: rgba(255, 255, 255, 0.08);
+  /* Architectural Medium Steel-Navy Tones (Replaced pitch black) */
+  --color-dark-bg: #111D30;
+  --color-dark-surface: #16263E;
+  --color-dark-card: #1C3050;
+  --color-dark-border: rgba(255, 255, 255, 0.12);
 
-  /* Light Clean Tones */
-  --color-light-bg: #F8FAFC;
+  /* Light Clean Architectural Concrete Tones */
+  --color-light-bg: #F1F5F9;
   --color-light-surface: #FFFFFF;
   --color-light-card: #FFFFFF;
   --color-light-border: #E2E8F0;
 
   /* Typography Colors */
-  --color-primary: #0F172A;
+  --color-primary: #0F1E36;
   --color-text-main: #1E293B;
-  --color-text-muted: #64748B;
+  --color-text-muted: #475569;
   --color-text-light: #94A3B8;
-  --color-text-inverse: #F8FAFC;
+  --color-text-inverse: #FFFFFF;
 
-  /* Premium Sunset Gold & Amber Construction Palette */
+  /* Premium Construction Amber & Safety Orange Palette */
   --clm-grad-start: #F97316;
   --clm-grad-mid: #F59E0B;
   --clm-grad-end: #EAB308;
   
   --clm-gradient: linear-gradient(135deg, #F97316 0%, #F59E0B 50%, #EAB308 100%);
   --clm-gradient-h: linear-gradient(90deg, #F97316 0%, #F59E0B 50%, #EAB308 100%);
-  --clm-gradient-hover: linear-gradient(135deg, #FB923C 0%, #FBBF24 50%, #FACC15 100%);
+  --clm-gradient-hover: linear-gradient(135deg, #EA580C 0%, #D97706 50%, #CA8A04 100%);
   --clm-gradient-subtle: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(245, 158, 11, 0.08) 50%, rgba(234, 179, 8, 0.04) 100%);
-  --clm-gradient-border: linear-gradient(90deg, rgba(249, 115, 22, 0.6) 0%, rgba(245, 158, 11, 0.6) 50%, rgba(234, 179, 8, 0.6) 100%);
+  --clm-gradient-border: linear-gradient(90deg, rgba(249, 115, 22, 0.7) 0%, rgba(245, 158, 11, 0.7) 50%, rgba(234, 179, 8, 0.7) 100%);
   
   --color-accent-amber: #F59E0B;
   --color-accent-gold: #D4AF37;
@@ -49,9 +49,9 @@
 
   /* Refined Architectural Shadows */
   --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.09);
+  --shadow-sm: 0 4px 12px rgba(15, 30, 54, 0.04);
+  --shadow-md: 0 8px 24px rgba(15, 30, 54, 0.07);
+  --shadow-lg: 0 16px 36px rgba(15, 30, 54, 0.12);
   --shadow-glow: 0 0 25px rgba(245, 158, 11, 0.25);
 
   --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
@@ -193,10 +193,10 @@ footer h1, footer h2, footer h3,
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #090D14;
+  background: #111D30;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #2A3F60;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -492,10 +492,10 @@ footer h1, footer h2, footer h3,
 .projects-tab-switcher {
   display: flex;
   padding: 5px;
-  background-color: #0F1724;
+  background-color: #16263E;
   border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 24px rgba(15, 30, 54, 0.15);
   max-width: 520px;
   width: 100%;
 }
@@ -655,14 +655,14 @@ body.show-cms-outlines .admin-inline-editable {
     left: 0;
     right: 0;
     z-index: 1500;
-    background: rgba(9, 13, 20, 0.96);
+    background: rgba(17, 29, 48, 0.97);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding: 8px 12px;
     padding-bottom: max(8px, env(safe-area-inset-bottom));
     gap: 8px;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -8px 24px rgba(15, 30, 54, 0.25);
     align-items: center;
     justify-content: space-between;
   }

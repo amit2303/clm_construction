@@ -20,13 +20,13 @@ export default function ContactTab() {
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.75) 100%), url("/project_gallery/gallery-6.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.94) 30%, rgba(28, 48, 77, 0.8) 100%), url("/project_gallery/gallery-6.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
           padding: '85px 0 65px 0',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div className="container">
@@ -352,11 +352,11 @@ export default function ContactTab() {
               <div
                 style={{
                   position: 'relative',
-                  backgroundColor: '#0F1724',
+                  backgroundColor: '#16263E',
                   borderRadius: '14px',
                   padding: '28px',
                   color: '#FFFFFF',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                   marginTop: '30px',
                   overflow: 'hidden',
                 }}

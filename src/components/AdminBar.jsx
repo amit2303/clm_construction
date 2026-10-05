@@ -22,7 +22,7 @@ export default function AdminBar() {
         position: 'sticky',
         top: 0,
         zIndex: 9999,
-        backgroundColor: '#090D14',
+        backgroundColor: '#111D30',
         color: '#FFFFFF',
         borderBottom: '2px solid #F59E0B',
         padding: '8px 20px',

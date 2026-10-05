@@ -62,13 +62,13 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.75) 100%), url("/images/hero.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.94) 30%, rgba(28, 48, 77, 0.8) 100%), url("/images/hero.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
           padding: '85px 0 65px 0',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div className="container">
@@ -241,7 +241,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                         <div style={{ position: 'absolute', top: '14px', left: '14px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
                           <span
                             style={{
-                              backgroundColor: 'rgba(9, 13, 20, 0.9)',
+                              backgroundColor: 'rgba(17, 29, 48, 0.92)',
                               color: '#F59E0B',
                               fontSize: '0.75rem',
                               fontWeight: 700,
@@ -462,7 +462,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                       e.currentTarget.style.borderColor = '#E2E8F0';
                     }}
                   >
-                    <div style={{ position: 'relative', height: '240px', overflow: 'hidden', backgroundColor: '#090D14' }}>
+                    <div style={{ position: 'relative', height: '240px', overflow: 'hidden', backgroundColor: '#16263E' }}>
                       <EditableImage
                         src={item.src}
                         alt={item.title}
@@ -475,7 +475,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                           position: 'absolute',
                           top: '12px',
                           left: '12px',
-                          backgroundColor: 'rgba(9, 13, 20, 0.85)',
+                          backgroundColor: 'rgba(17, 29, 48, 0.88)',
                           backdropFilter: 'blur(8px)',
                           color: '#F59E0B',
                           fontSize: '0.75rem',
@@ -559,11 +559,11 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
               position: 'relative',
               marginTop: '70px',
               padding: '45px 36px',
-              backgroundColor: '#0F1724',
+              backgroundColor: '#16263E',
               borderRadius: '16px',
               color: '#FFFFFF',
               textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.1)',
               overflow: 'hidden',
             }}
           >
@@ -600,7 +600,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             right: 0,
             bottom: 0,
             zIndex: 3000,
-            backgroundColor: 'rgba(9, 13, 20, 0.95)',
+            backgroundColor: 'rgba(17, 29, 48, 0.96)',
             backdropFilter: 'blur(16px)',
             display: 'flex',
             alignItems: 'center',
@@ -614,11 +614,11 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
               position: 'relative',
               maxWidth: '1000px',
               width: '100%',
-              backgroundColor: '#0F1724',
+              backgroundColor: '#16263E',
               borderRadius: '14px',
-              border: '1px solid rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.14)',
               overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(0,0,0,0.8)',
+              boxShadow: '0 25px 60px rgba(15,30,54,0.6)',
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -628,7 +628,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             <div
               style={{
                 padding: '16px 24px',
-                backgroundColor: '#090D14',
+                backgroundColor: '#111D30',
                 borderBottom: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex',
                 alignItems: 'center',
@@ -711,7 +711,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                   left: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'rgba(9, 13, 20, 0.75)',
+                  background: 'rgba(17, 29, 48, 0.85)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   color: '#FFFFFF',
                   width: '44px',
@@ -736,7 +736,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                   right: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'rgba(9, 13, 20, 0.75)',
+                  background: 'rgba(17, 29, 48, 0.85)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   color: '#FFFFFF',
                   width: '44px',
@@ -754,7 +754,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             </div>
 
             {/* Caption & Location */}
-            <div style={{ padding: '20px 24px', backgroundColor: '#0F1724' }}>
+            <div style={{ padding: '20px 24px', backgroundColor: '#16263E' }}>
               <h3 style={{ color: '#FFFFFF', fontSize: '1.25rem', fontFamily: 'var(--font-heading)', fontWeight: 800, marginBottom: '6px' }}>
                 {selectedItem.title}
               </h3>

@@ -59,8 +59,8 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.8) 100%), url("/images/hero.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.93) 30%, rgba(28, 48, 77, 0.82) 100%), url("/images/hero.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
@@ -233,9 +233,9 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
       {/* 2. NUMERICAL SCOPE RIBBON (Visible in the landing view itself without scrolling) */}
       <section
         style={{
-          backgroundColor: '#0B111D',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: '#142236',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          borderTop: '1px solid rgba(255,255,255,0.1)',
           padding: '16px 0',
         }}
       >
@@ -554,7 +554,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
       </section>
 
       {/* 4. WHY CHOOSE CLM CONSTRUCTION */}
-      <section className="section-padding" style={{ backgroundColor: '#090D14', color: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
+      <section className="section-padding" style={{ backgroundColor: '#16263E', color: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
         <div className="bg-grid-pattern" style={{ position: 'absolute', inset: 0, opacity: 0.3 }} />
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <div className="responsive-grid" style={{ alignItems: 'center' }}>
@@ -697,7 +697,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                     left: 0,
                     right: 0,
                     padding: '24px',
-                    background: 'linear-gradient(to top, rgba(9, 13, 20, 0.95), transparent)',
+                    background: 'linear-gradient(to top, rgba(17, 29, 48, 0.95), transparent)',
                   }}
                 >
                   <div style={{ color: '#F59E0B', fontWeight: 700, fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
@@ -805,7 +805,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                   <div style={{ position: 'absolute', top: '14px', left: '14px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
                     <span
                       style={{
-                        backgroundColor: 'rgba(9, 13, 20, 0.9)',
+                        backgroundColor: 'rgba(17, 29, 48, 0.92)',
                         color: '#F59E0B',
                         fontSize: '0.75rem',
                         fontWeight: 700,
@@ -940,7 +940,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
       </section>
 
       {/* 6. CONTRACTORS / LEADERSHIP SECTION */}
-      <section className="section-padding" style={{ backgroundColor: '#090D14', color: '#FFFFFF' }}>
+      <section className="section-padding" style={{ backgroundColor: '#111D30', color: '#FFFFFF' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
@@ -956,7 +956,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
               <div
                 key={person.id || idx}
                 style={{
-                  backgroundColor: '#0F1724',
+                  backgroundColor: '#16263E',
                   borderRadius: '16px',
                   padding: 'clamp(22px, 3.5vw, 36px)',
                   border: '1px solid rgba(255,255,255,0.08)',
@@ -1135,10 +1135,10 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#0F1724',
+          backgroundColor: '#16263E',
           color: '#FFFFFF',
           padding: '70px 0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
           overflow: 'hidden',
         }}
       >

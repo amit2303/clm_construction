@@ -80,7 +80,7 @@ export default function EditableImage({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: 'rgba(9, 13, 20, 0.85)',
+        backgroundColor: 'rgba(17, 29, 48, 0.92)',
         backdropFilter: 'blur(10px)',
         display: 'flex',
         alignItems: 'center',
@@ -91,10 +91,10 @@ export default function EditableImage({
     >
       <div
         style={{
-          backgroundColor: '#0F1724',
+          backgroundColor: '#16263E',
           borderRadius: '16px',
           border: '1px solid rgba(245, 158, 11, 0.3)',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
+          boxShadow: '0 25px 60px rgba(15, 30, 54, 0.6)',
           width: '100%',
           maxWidth: '650px',
           maxHeight: '90vh',
@@ -113,7 +113,7 @@ export default function EditableImage({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: '#090D14',
+            background: '#111D30',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -143,7 +143,7 @@ export default function EditableImage({
           <div
             style={{
               height: '180px',
-              backgroundColor: '#090D14',
+              backgroundColor: '#111D30',
               borderRadius: '10px',
               overflow: 'hidden',
               marginBottom: '20px',
@@ -192,7 +192,7 @@ export default function EditableImage({
                 padding: '10px',
                 borderRadius: '8px',
                 border: activeTab === 'preset' ? '1px solid #F59E0B' : '1px solid rgba(255,255,255,0.1)',
-                background: activeTab === 'preset' ? 'rgba(245, 158, 11, 0.12)' : '#090D14',
+                background: activeTab === 'preset' ? 'rgba(245, 158, 11, 0.12)' : '#111D30',
                 color: activeTab === 'preset' ? '#F59E0B' : '#94A3B8',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 700,
@@ -215,7 +215,7 @@ export default function EditableImage({
                 padding: '10px',
                 borderRadius: '8px',
                 border: activeTab === 'upload' ? '1px solid #F59E0B' : '1px solid rgba(255,255,255,0.1)',
-                background: activeTab === 'upload' ? 'rgba(245, 158, 11, 0.12)' : '#090D14',
+                background: activeTab === 'upload' ? 'rgba(245, 158, 11, 0.12)' : '#111D30',
                 color: activeTab === 'upload' ? '#F59E0B' : '#94A3B8',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 700,
@@ -238,7 +238,7 @@ export default function EditableImage({
                 padding: '10px',
                 borderRadius: '8px',
                 border: activeTab === 'url' ? '1px solid #F59E0B' : '1px solid rgba(255,255,255,0.1)',
-                background: activeTab === 'url' ? 'rgba(245, 158, 11, 0.12)' : '#090D14',
+                background: activeTab === 'url' ? 'rgba(245, 158, 11, 0.12)' : '#111D30',
                 color: activeTab === 'url' ? '#F59E0B' : '#94A3B8',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 700,
@@ -362,7 +362,7 @@ export default function EditableImage({
                   width: '100%',
                   padding: '12px 14px',
                   borderRadius: '8px',
-                  backgroundColor: '#090D14',
+                  backgroundColor: '#111D30',
                   border: '1px solid rgba(255,255,255,0.15)',
                   color: '#FFFFFF',
                   fontSize: '0.9rem',
@@ -386,7 +386,7 @@ export default function EditableImage({
             alignItems: 'center',
             justifyContent: 'flex-end',
             gap: '12px',
-            background: '#090D14',
+            background: '#111D30',
           }}
         >
           <button
@@ -466,8 +466,8 @@ export default function EditableImage({
             height: '22px',
             borderRadius: '50%',
             backgroundColor: '#F59E0B',
-            color: '#090D14',
-            border: '1.5px solid #090D14',
+            color: '#111D30',
+            border: '1.5px solid #111D30',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             alignItems: 'center',
@@ -537,7 +537,7 @@ export default function EditableImage({
           top: '10px',
           right: '10px',
           zIndex: 25,
-          background: 'rgba(9, 13, 20, 0.88)',
+          background: 'rgba(17, 29, 48, 0.92)',
           backdropFilter: 'blur(8px)',
           border: '1px solid rgba(245, 158, 11, 0.6)',
           color: '#F59E0B',
@@ -550,15 +550,15 @@ export default function EditableImage({
           alignItems: 'center',
           gap: '6px',
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+          boxShadow: '0 4px 12px rgba(15,30,54,0.4)',
           transition: 'all 0.2s ease',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = '#F59E0B';
-          e.currentTarget.style.color = '#090D14';
+          e.currentTarget.style.color = '#111D30';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(9, 13, 20, 0.88)';
+          e.currentTarget.style.background = 'rgba(17, 29, 48, 0.92)';
           e.currentTarget.style.color = '#F59E0B';
         }}
         title="Admin: Click to replace this image"

@@ -57,13 +57,13 @@ export default function ServicesTab({ onOpenQuoteModal }) {
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#090D14',
-          backgroundImage: 'linear-gradient(to right, rgba(9, 13, 20, 0.95) 30%, rgba(15, 23, 42, 0.75) 100%), url("/project_gallery/gallery-4.jpg")',
+          backgroundColor: '#111D30',
+          backgroundImage: 'linear-gradient(to right, rgba(17, 29, 48, 0.94) 30%, rgba(28, 48, 77, 0.8) 100%), url("/project_gallery/gallery-4.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           color: '#FFFFFF',
           padding: '85px 0 65px 0',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div className="container">
@@ -222,11 +222,11 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                 <div>
                   <div
                     style={{
-                      backgroundColor: '#0F1724',
+                      backgroundColor: '#16263E',
                       color: '#FFFFFF',
                       padding: '28px',
                       borderRadius: '14px',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
                       marginBottom: '20px',
                     }}
                   >
@@ -363,7 +363,7 @@ export default function ServicesTab({ onOpenQuoteModal }) {
       </section>
 
       {/* Machinery & Equipment Fleet */}
-      <section className="section-padding" style={{ backgroundColor: '#090D14', color: '#FFFFFF' }}>
+      <section className="section-padding" style={{ backgroundColor: '#111D30', color: '#FFFFFF' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
@@ -382,10 +382,10 @@ export default function ServicesTab({ onOpenQuoteModal }) {
               <div
                 key={idx}
                 style={{
-                  backgroundColor: '#0F1724',
+                  backgroundColor: '#16263E',
                   padding: '28px',
                   borderRadius: '12px',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                 }}
               >
                 <div
@@ -430,10 +430,10 @@ export default function ServicesTab({ onOpenQuoteModal }) {
       <section
         style={{
           position: 'relative',
-          backgroundColor: '#0F1724',
+          backgroundColor: '#16263E',
           padding: '65px 0',
           textAlign: 'center',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          borderTop: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <div

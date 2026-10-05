@@ -52,18 +52,18 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
         top: isAdmin ? '44px' : 0,
         zIndex: 1000,
         transition: 'background-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease',
-        backgroundColor: isScrolled ? 'rgba(9, 13, 20, 0.97)' : '#0F172A',
+        backgroundColor: isScrolled ? 'rgba(17, 29, 48, 0.97)' : '#16263E',
         backdropFilter: isScrolled ? 'blur(16px)' : 'none',
         WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        boxShadow: isScrolled ? '0 10px 30px rgba(0,0,0,0.45)' : 'none',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: isScrolled ? '0 10px 30px rgba(15, 30, 54, 0.35)' : 'none',
       }}
     >
       {/* 1. TOP ANNOUNCEMENT / INFO BAR (Responsive & Clean) */}
       <div
         style={{
-          backgroundColor: '#090D14',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          backgroundColor: '#111D30',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           padding: '4px 0',
           fontSize: '0.78rem',
           color: '#94A3B8',
@@ -309,7 +309,7 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
             inset: 0,
             top: isAdmin ? '118px' : '74px',
             zIndex: 999,
-            backgroundColor: 'rgba(9, 13, 20, 0.7)',
+            backgroundColor: 'rgba(17, 29, 48, 0.75)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
             display: 'flex',
@@ -319,9 +319,9 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
         >
           <div
             style={{
-              backgroundColor: '#0F1724',
+              backgroundColor: '#16263E',
               borderBottom: '2px solid #F59E0B',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+              boxShadow: '0 20px 40px rgba(15,30,54,0.6)',
               padding: '24px 20px 30px 20px',
               display: 'flex',
               flexDirection: 'column',
