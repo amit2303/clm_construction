@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCMS } from '../context/CMSContext';
-import { Save, CheckCircle2 } from 'lucide-react';
+import { Save } from 'lucide-react';
 
 export default function SaveButton() {
   const { isAdmin, hasUnsavedChanges, saveChanges, changeCount } = useCMS();
@@ -11,44 +11,46 @@ export default function SaveButton() {
     <div
       style={{
         position: 'fixed',
-        bottom: '28px',
-        right: '28px',
+        bottom: 'calc(64px + 16px)', // Stay above mobile bottom bar
+        right: '20px',
         zIndex: 9998,
         animation: 'fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
+      className="save-btn-floating"
     >
       <button
         onClick={saveChanges}
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
+          gap: '8px',
           backgroundColor: '#10B981',
           color: '#FFFFFF',
           border: 'none',
-          padding: '16px 26px',
+          padding: '13px 22px',
           borderRadius: '9999px',
           fontFamily: 'var(--font-heading)',
           fontWeight: 800,
-          fontSize: '1rem',
+          fontSize: '0.9rem',
           cursor: 'pointer',
-          boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.6), 0 8px 10px -6px rgba(16, 185, 129, 0.6)',
+          boxShadow: '0 8px 24px rgba(16, 185, 129, 0.55)',
           transition: 'all 0.25s ease',
           outline: 'none',
+          whiteSpace: 'nowrap',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
+          e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
           e.currentTarget.style.backgroundColor = '#059669';
-          e.currentTarget.style.boxShadow = '0 16px 32px -5px rgba(16, 185, 129, 0.8)';
+          e.currentTarget.style.boxShadow = '0 12px 28px rgba(16, 185, 129, 0.7)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0) scale(1)';
           e.currentTarget.style.backgroundColor = '#10B981';
-          e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(16, 185, 129, 0.6), 0 8px 10px -6px rgba(16, 185, 129, 0.6)';
+          e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.55)';
         }}
-        title="Click to commit and save all inline edits to persistent storage"
+        title="Save all inline edits to persistent storage"
       >
-        <Save size={20} />
+        <Save size={18} />
         <span>Save Changes</span>
         {changeCount > 0 && (
           <span
@@ -57,14 +59,23 @@ export default function SaveButton() {
               color: '#FFFFFF',
               borderRadius: '9999px',
               padding: '2px 8px',
-              fontSize: '0.8rem',
+              fontSize: '0.75rem',
               fontWeight: 800,
+              minWidth: '22px',
+              textAlign: 'center',
             }}
           >
             {changeCount}
           </span>
         )}
       </button>
+      <style>{`
+        @media (min-width: 769px) {
+          .save-btn-floating {
+            bottom: 24px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

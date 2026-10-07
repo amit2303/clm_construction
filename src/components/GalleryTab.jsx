@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCMS } from '../context/CMSContext';
+import EditableField from './EditableField';
 import {
   Camera,
   Maximize2,
@@ -12,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function GalleryTab({ onOpenQuoteModal }) {
-  const { gallery } = useCMS();
+  const { gallery, companyInfo, updateCompanyInfo } = useCMS();
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
@@ -42,7 +43,12 @@ export default function GalleryTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ maxWidth: '780px' }}>
             <span className="badge-amber" style={{ marginBottom: '16px' }}>
-              <Camera size={14} /> ON-SITE PHOTOGRAPHY & ARCHIVE
+              <Camera size={14} />{' '}
+              <EditableField
+                value={companyInfo.galleryBannerBadge}
+                onChange={(val) => updateCompanyInfo('galleryBannerBadge', val)}
+                as="span"
+              />
             </span>
             <h1
               className="page-banner-heading"
@@ -54,10 +60,19 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                 marginBottom: '20px',
               }}
             >
-              CLM Project Gallery
+              <EditableField
+                value={companyInfo.galleryBannerTitle}
+                onChange={(val) => updateCompanyInfo('galleryBannerTitle', val)}
+                as="span"
+              />
             </h1>
             <p style={{ color: '#CBD5E1', fontSize: '1.08rem', lineHeight: 1.65 }}>
-              Authentic on-site construction photographs capturing excavation, IS code RCC structural framing, industrial plant builds (Veeba Food ETP & Warehouse), and commercial elevations across North India.
+              <EditableField
+                value={companyInfo.galleryBannerDesc}
+                onChange={(val) => updateCompanyInfo('galleryBannerDesc', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
         </div>
@@ -252,11 +267,11 @@ export default function GalleryTab({ onOpenQuoteModal }) {
               position: 'relative',
               maxWidth: '1000px',
               width: '100%',
-              backgroundColor: '#16263E',
-              borderRadius: '14px',
-              border: '1px solid rgba(255,255,255,0.14)',
+              backgroundColor: '#FFFFFF',
+              borderRadius: '16px',
+              border: '1px solid #E2E8F0',
               overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(15,30,54,0.6)',
+              boxShadow: '0 25px 65px rgba(15, 23, 42, 0.25)',
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -266,8 +281,8 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             <div
               style={{
                 padding: '16px 24px',
-                backgroundColor: '#111D30',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                backgroundColor: '#FFFFFF',
+                borderBottom: '1px solid #E2E8F0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -277,7 +292,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                 <span className="badge-amber" style={{ fontSize: '0.75rem' }}>
                   Image {selectedImageIndex + 1} of {filteredGallery.length}
                 </span>
-                <span style={{ color: '#F59E0B', fontWeight: 600, fontSize: '0.88rem' }}>
+                <span style={{ color: '#D97706', fontWeight: 700, fontSize: '0.88rem' }}>
                   {selectedItem.tag}
                 </span>
               </div>
@@ -289,25 +304,30 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   target="_blank"
                   rel="noreferrer"
                   style={{
-                    color: '#94A3B8',
+                    color: '#475569',
                     textDecoration: 'none',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
+                    gap: '6px',
                     fontSize: '0.82rem',
-                    padding: '6px 12px',
-                    background: 'rgba(255,255,255,0.06)',
+                    fontWeight: 600,
+                    padding: '7px 14px',
+                    background: '#F1F5F9',
+                    border: '1px solid #E2E8F0',
                     borderRadius: '6px',
+                    transition: 'all 0.2s ease',
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#E2E8F0'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#F1F5F9'}
                 >
                   <Download size={14} /> Full Image
                 </a>
                 <button
                   onClick={() => setSelectedImageIndex(null)}
                   style={{
-                    background: 'rgba(255,255,255,0.08)',
-                    border: 'none',
-                    color: '#FFFFFF',
+                    background: '#F1F5F9',
+                    border: '1px solid #E2E8F0',
+                    color: '#475569',
                     borderRadius: '50%',
                     width: '36px',
                     height: '36px',
@@ -315,6 +335,15 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#E2E8F0';
+                    e.currentTarget.style.color = '#0F172A';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F1F5F9';
+                    e.currentTarget.style.color = '#475569';
                   }}
                 >
                   <X size={20} />
@@ -326,7 +355,7 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             <div
               style={{
                 position: 'relative',
-                backgroundColor: '#000000',
+                backgroundColor: '#F8FAFC',
                 minHeight: '450px',
                 maxHeight: '65vh',
                 display: 'flex',
@@ -349,9 +378,9 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   left: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(17, 29, 48, 0.85)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#FFFFFF',
+                  backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                  border: '1px solid #E2E8F0',
+                  color: '#0F172A',
                   borderRadius: '50%',
                   width: '44px',
                   height: '44px',
@@ -359,6 +388,16 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F59E0B';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.92)';
+                  e.currentTarget.style.color = '#0F172A';
                 }}
               >
                 <ChevronLeft size={24} />
@@ -373,9 +412,9 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   right: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: 'rgba(17, 29, 48, 0.85)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#FFFFFF',
+                  backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                  border: '1px solid #E2E8F0',
+                  color: '#0F172A',
                   borderRadius: '50%',
                   width: '44px',
                   height: '44px',
@@ -383,6 +422,16 @@ export default function GalleryTab({ onOpenQuoteModal }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F59E0B';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.92)';
+                  e.currentTarget.style.color = '#0F172A';
                 }}
               >
                 <ChevronRight size={24} />
@@ -390,14 +439,14 @@ export default function GalleryTab({ onOpenQuoteModal }) {
             </div>
 
             {/* Bottom Caption */}
-            <div style={{ padding: '20px 24px', backgroundColor: '#16263E', color: '#FFFFFF' }}>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
+            <div style={{ padding: '20px 24px', backgroundColor: '#FFFFFF', borderTop: '1px solid #E2E8F0', color: '#0F172A' }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', marginBottom: '4px' }}>
                 {selectedItem.title}
               </h3>
-              <div style={{ fontSize: '0.85rem', color: '#F59E0B', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
+              <div style={{ fontSize: '0.85rem', color: '#D97706', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
                 <MapPin size={14} /> {selectedItem.location}
               </div>
-              <p style={{ color: '#CBD5E1', fontSize: '0.92rem', margin: 0, lineHeight: 1.5 }}>
+              <p style={{ color: '#475569', fontSize: '0.92rem', margin: 0, lineHeight: 1.5 }}>
                 {selectedItem.description}
               </p>
             </div>

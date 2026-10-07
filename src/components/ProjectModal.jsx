@@ -8,11 +8,12 @@ import {
   Calendar,
   CircleCheck,
   Building2,
-  X
+  X,
+  Save
 } from 'lucide-react';
 
 export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
-  const { updateProject } = useCMS();
+  const { updateProject, isAdmin, saveChanges, showToast } = useCMS();
 
   if (!project) return null;
 
@@ -25,8 +26,8 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
         right: 0,
         bottom: 0,
         zIndex: 2000,
-        backgroundColor: 'rgba(17, 29, 48, 0.92)',
-        backdropFilter: 'blur(10px)',
+        backgroundColor: 'rgba(15, 23, 42, 0.65)',
+        backdropFilter: 'blur(8px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -40,12 +41,12 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
           maxWidth: '780px',
           maxHeight: '92vh',
           overflowY: 'auto',
-          backgroundColor: '#16263E',
+          backgroundColor: '#FFFFFF',
           borderRadius: '16px',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          boxShadow: '0 25px 60px rgba(15, 30, 54, 0.6)',
+          border: '1px solid #E2E8F0',
+          boxShadow: '0 25px 65px rgba(15, 23, 42, 0.22)',
+          color: '#0F172A',
           position: 'relative',
-          overflow: 'hidden',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -57,6 +58,8 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
             onChange={(val) => updateProject(project.id, 'image', val)}
             fallbackSrc="/ETP.jpg"
             buttonLabel="Change Project Image"
+            buttonPosition="top-left"
+            buttonStyle={{ top: '16px', left: '16px' }}
             style={{ width: '100%', height: '100%' }}
           />
           <div
@@ -66,7 +69,7 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'linear-gradient(to top, #16263E 0%, rgba(22, 38, 62, 0.4) 60%, transparent 100%)',
+              background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.4) 60%, transparent 100%)',
               pointerEvents: 'none',
             }}
           />
@@ -77,9 +80,10 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
               position: 'absolute',
               top: '16px',
               right: '16px',
-              background: 'rgba(17, 29, 48, 0.85)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: '#FFFFFF',
+              background: 'rgba(255, 255, 255, 0.92)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid #E2E8F0',
+              color: '#0F172A',
               borderRadius: '50%',
               width: '38px',
               height: '38px',
@@ -88,6 +92,16 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
               justifyContent: 'center',
               cursor: 'pointer',
               zIndex: 30,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              transition: 'transform 0.2s ease, background-color 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.08)';
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.92)';
             }}
           >
             <X size={20} />
@@ -118,11 +132,12 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
                   display: 'inline-block',
                   padding: '4px 12px',
                   borderRadius: '4px',
-                  backgroundColor: project.status === 'Running (Target 2026)' ? 'rgba(245, 158, 11, 0.2)' : '#1E293B',
-                  border: project.status === 'Running (Target 2026)' ? '1px solid rgba(245, 158, 11, 0.4)' : '1px solid rgba(255, 255, 255, 0.15)',
-                  color: project.status === 'Running (Target 2026)' ? '#F59E0B' : '#E2E8F0',
+                  backgroundColor: project.status === 'Running (Target 2026)' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255, 255, 255, 0.2)',
+                  border: project.status === 'Running (Target 2026)' ? '1px solid rgba(245, 158, 11, 0.6)' : '1px solid rgba(255, 255, 255, 0.3)',
+                  color: project.status === 'Running (Target 2026)' ? '#FDE68A' : '#FFFFFF',
                   fontSize: '0.78rem',
                   fontWeight: 700,
+                  backdropFilter: 'blur(4px)',
                 }}
               >
                 <EditableField
@@ -139,6 +154,7 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
                 color: '#FFFFFF',
                 fontWeight: 800,
                 margin: 0,
+                textShadow: '0 2px 4px rgba(0,0,0,0.5)',
               }}
             >
               <EditableField
@@ -159,17 +175,17 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
               gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
               gap: '16px',
               padding: '16px',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              borderRadius: '10px',
-              border: '1px solid rgba(255, 255, 255, 0.07)',
+              backgroundColor: '#F8FAFC',
+              borderRadius: '12px',
+              border: '1px solid #E2E8F0',
               marginBottom: '24px',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <MapPin size={20} style={{ color: '#F59E0B' }} />
+              <MapPin size={20} style={{ color: '#D97706' }} />
               <div>
-                <div style={{ fontSize: '0.75rem', color: '#94A3B8' }}>Location</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#F8FAFC' }}>
+                <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600 }}>Location</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
                   <EditableField
                     value={project.location}
                     onChange={(val) => updateProject(project.id, 'location', val)}
@@ -180,10 +196,10 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Maximize2 size={20} style={{ color: '#EAB308' }} />
+              <Maximize2 size={20} style={{ color: '#D97706' }} />
               <div>
-                <div style={{ fontSize: '0.75rem', color: '#94A3B8' }}>Built Area</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#F8FAFC' }}>
+                <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600 }}>Built Area</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
                   <EditableField
                     value={project.area}
                     onChange={(val) => updateProject(project.id, 'area', val)}
@@ -195,10 +211,10 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
 
             {project.year && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Calendar size={20} style={{ color: '#D4AF37' }} />
+                <Calendar size={20} style={{ color: '#D97706' }} />
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8' }}>Timeline</div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#F8FAFC' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600 }}>Timeline</div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
                     <EditableField
                       value={project.year}
                       onChange={(val) => updateProject(project.id, 'year', val)}
@@ -210,10 +226,10 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
             )}
           </div>
 
-          <h4 style={{ fontFamily: 'var(--font-heading)', color: '#FFFFFF', fontSize: '1.1rem', marginBottom: '10px' }}>
+          <h4 style={{ fontFamily: 'var(--font-heading)', color: '#0F172A', fontSize: '1.15rem', fontWeight: 800, marginBottom: '10px' }}>
             Project Overview
           </h4>
-          <p style={{ color: '#94A3B8', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '24px' }}>
+          <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.65', marginBottom: '24px' }}>
             <EditableField
               value={project.description}
               onChange={(val) => updateProject(project.id, 'description', val)}
@@ -222,7 +238,7 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
             />
           </p>
 
-          <h4 style={{ fontFamily: 'var(--font-heading)', color: '#FFFFFF', fontSize: '1.1rem', marginBottom: '14px' }}>
+          <h4 style={{ fontFamily: 'var(--font-heading)', color: '#0F172A', fontSize: '1.15rem', fontWeight: 800, marginBottom: '14px' }}>
             Key Executed Scope of Work
           </h4>
           <div
@@ -241,13 +257,13 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
                   alignItems: 'flex-start',
                   gap: '10px',
                   padding: '12px 14px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  backgroundColor: '#F8FAFC',
                   borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  border: '1px solid #E2E8F0',
                 }}
               >
-                <CircleCheck size={18} style={{ color: '#22C55E', flexShrink: 0, marginTop: '2px' }} />
-                <span style={{ fontSize: '0.88rem', color: '#CBD5E1', lineHeight: '1.4' }}>
+                <CircleCheck size={18} style={{ color: '#16A34A', flexShrink: 0, marginTop: '2px' }} />
+                <span style={{ fontSize: '0.88rem', color: '#1E293B', lineHeight: '1.4', fontWeight: 500 }}>
                   <EditableField
                     value={item}
                     onChange={(val) => {
@@ -270,21 +286,48 @@ export default function ProjectModal({ project, onClose, onOpenQuoteModal }) {
               flexWrap: 'wrap',
               gap: '16px',
               paddingTop: '16px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+              borderTop: '1px solid #E2E8F0',
             }}
           >
-            <span style={{ fontSize: '0.85rem', color: '#94A3B8', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Building2 size={16} style={{ color: '#D4AF37' }} /> Verified CLM Construction Portfolio Record
+            <span style={{ fontSize: '0.85rem', color: '#64748B', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 500 }}>
+              <Building2 size={16} style={{ color: '#D97706' }} /> Verified CLM Construction Portfolio Record
             </span>
-            <button
-              onClick={() => {
-                onClose();
-                onOpenQuoteModal();
-              }}
-              className="btn-primary"
-            >
-              Contact Team for Similar Build
-            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (saveChanges) saveChanges();
+                    if (showToast) showToast('✓ Project changes saved to site!');
+                    onClose();
+                  }}
+                  className="btn-primary"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '9px 20px',
+                    fontSize: '0.86rem',
+                  }}
+                >
+                  <Save size={15} /> Save & Close
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenQuoteModal();
+                }}
+                className={isAdmin ? "btn-outline-gold" : "btn-primary"}
+                style={{
+                  padding: '9px 20px',
+                  fontSize: '0.86rem',
+                }}
+              >
+                Contact Team for Similar Build
+              </button>
+            </div>
           </div>
         </div>
       </div>

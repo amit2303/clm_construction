@@ -17,7 +17,11 @@ import {
   Briefcase,
   Users,
   PlusCircle,
-  Trash2
+  Trash2,
+  FileText,
+  Eye,
+  CheckCircle2,
+  ChevronDown
 } from 'lucide-react';
 
 export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProject }) {
@@ -68,163 +72,221 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
           padding: 'clamp(36px, 5vh, 56px) 0 clamp(20px, 3vh, 32px) 0',
         }}
       >
-        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ maxWidth: '880px' }}>
-            {/* Hero Eyebrow Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
-              <div className="badge-amber" style={{ padding: '5px 12px', fontSize: '0.76rem' }}>
-                <HardHat size={14} />
-                <EditableField
-                  value={homeStats.heroTagline}
-                  onChange={(val) => updateHomeStats('heroTagline', val)}
-                  as="span"
-                />
+        <div className="container" style={{ position: 'relative', zIndex: 10, width: '100%' }}>
+          <div
+            className="hero-grid-layout"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'minmax(0, 1.35fr) minmax(280px, 0.75fr)',
+              gap: 'clamp(28px, 4vw, 56px)',
+              alignItems: 'center',
+            }}
+          >
+            {/* Left Column: Headlines, Description, CTA Buttons, Metrics */}
+            <div>
+              {/* Hero Eyebrow Badge */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+                <div className="badge-amber" style={{ padding: '5px 12px', fontSize: '0.76rem' }}>
+                  <HardHat size={14} />
+                  <EditableField
+                    value={homeStats.heroTagline}
+                    onChange={(val) => updateHomeStats('heroTagline', val)}
+                    as="span"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Hero Headline: QUALITY IS OUR on line 1, and BLUEPRINT on line 2 */}
-            <h1
-              className="hero-heading"
-              style={{
-                color: '#FFFFFF',
-                fontSize: 'clamp(2.3rem, 5.2vw, 3.8rem)',
-                lineHeight: 1.1,
-                marginBottom: '16px',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              <span style={{ display: 'block', color: '#FFFFFF' }}>
-                <EditableField
-                  value={homeStats.heroHeadingBefore}
-                  onChange={(val) => updateHomeStats('heroHeadingBefore', val)}
-                  as="span"
-                  style={{ color: '#FFFFFF' }}
-                />
-              </span>
-              <span
+              {/* Hero Headline: QUALITY IS OUR on line 1, and BLUEPRINT on line 2 */}
+              <h1
+                className="hero-heading"
                 style={{
-                  display: 'block',
-                  background: 'linear-gradient(90deg, #F97316 0%, #F59E0B 50%, #EAB308 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  color: '#FFFFFF',
+                  fontSize: 'clamp(2.3rem, 5.2vw, 3.8rem)',
+                  lineHeight: 1.1,
+                  marginBottom: '16px',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                <span style={{ display: 'block', color: '#FFFFFF' }}>
+                  <EditableField
+                    value={homeStats.heroHeadingBefore}
+                    onChange={(val) => updateHomeStats('heroHeadingBefore', val)}
+                    as="span"
+                    style={{ color: '#FFFFFF' }}
+                  />
+                </span>
+                <span
+                  style={{
+                    display: 'block',
+                    background: 'linear-gradient(90deg, #F97316 0%, #F59E0B 50%, #EAB308 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  <EditableField
+                    value={homeStats.heroHeadingAccent}
+                    onChange={(val) => updateHomeStats('heroHeadingAccent', val)}
+                    as="span"
+                  />
+                </span>
+              </h1>
+
+              {/* Hero Subheadline */}
+              <p
+                style={{
+                  fontSize: 'clamp(0.98rem, 1.5vw, 1.12rem)',
+                  color: '#CBD5E1',
+                  lineHeight: 1.6,
+                  marginBottom: '22px',
+                  maxWidth: '720px',
+                  fontWeight: 400,
                 }}
               >
                 <EditableField
-                  value={homeStats.heroHeadingAccent}
-                  onChange={(val) => updateHomeStats('heroHeadingAccent', val)}
+                  value={homeStats.heroDescription}
+                  onChange={(val) => updateHomeStats('heroDescription', val)}
                   as="span"
+                  multiline={true}
                 />
-              </span>
-            </h1>
+              </p>
 
-            {/* Hero Subheadline */}
-            <p
-              style={{
-                fontSize: 'clamp(0.98rem, 1.5vw, 1.12rem)',
-                color: '#CBD5E1',
-                lineHeight: 1.6,
-                marginBottom: '22px',
-                maxWidth: '720px',
-                fontWeight: 400,
-              }}
-            >
-              <EditableField
-                value={homeStats.heroDescription}
-                onChange={(val) => updateHomeStats('heroDescription', val)}
-                as="span"
-                multiline={true}
-              />
-            </p>
+              {/* Action Buttons */}
+              <div className="mobile-stack-buttons" style={{ gap: '12px' }}>
+                <button
+                  onClick={onOpenQuoteModal}
+                  className="btn-primary"
+                  style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
+                >
+                  <EditableField
+                    value={homeStats.heroBtn1}
+                    onChange={(val) => updateHomeStats('heroBtn1', val)}
+                    as="span"
+                  /> <ChevronRight size={17} />
+                </button>
+                <button
+                  onClick={() => setActiveTab('projects')}
+                  className="btn-secondary"
+                  style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
+                >
+                  <EditableField
+                    value={homeStats.heroBtn2}
+                    onChange={(val) => updateHomeStats('heroBtn2', val)}
+                    as="span"
+                  /> <Building2 size={17} />
+                </button>
+                <button
+                  onClick={() => setActiveTab('contact')}
+                  className="btn-outline-gold"
+                  style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
+                >
+                  <EditableField
+                    value={homeStats.heroBtn3}
+                    onChange={(val) => updateHomeStats('heroBtn3', val)}
+                    as="span"
+                  />
+                </button>
+              </div>
 
-            {/* Action Buttons */}
-            <div className="mobile-stack-buttons" style={{ gap: '12px' }}>
-              <button
-                onClick={onOpenQuoteModal}
-                className="btn-primary"
-                style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
-              >
-                Direct Contact <ChevronRight size={17} />
-              </button>
-              <button
-                onClick={() => setActiveTab('projects')}
-                className="btn-secondary"
-                style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
-              >
-                View Projects <Building2 size={17} />
-              </button>
-              <button
-                onClick={() => setActiveTab('contact')}
-                className="btn-outline-gold"
-                style={{ padding: '11px 24px', minHeight: '44px', fontSize: '0.92rem' }}
-              >
-                Contact Us
-              </button>
+              {/* Quick Metrics Bar below buttons */}
+              <div className="hero-metrics-grid">
+                {/* Stat 1 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Award style={{ color: '#F59E0B', flexShrink: 0 }} size={22} />
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat1Value}
+                        onChange={(val) => updateHomeStats('stat1Value', val)}
+                        as="span"
+                      />
+                    </div>
+                    <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat1Label}
+                        onChange={(val) => updateHomeStats('stat1Label', val)}
+                        as="span"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stat 2 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <TrendingUp style={{ color: '#EAB308', flexShrink: 0 }} size={22} />
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat2Value}
+                        onChange={(val) => updateHomeStats('stat2Value', val)}
+                        as="span"
+                      />
+                    </div>
+                    <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat2Label}
+                        onChange={(val) => updateHomeStats('stat2Label', val)}
+                        as="span"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stat 3 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <ShieldCheck style={{ color: '#D4AF37', flexShrink: 0 }} size={22} />
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat3Value}
+                        onChange={(val) => updateHomeStats('stat3Value', val)}
+                        as="span"
+                      />
+                    </div>
+                    <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
+                      <EditableField
+                        value={homeStats.stat3Label}
+                        onChange={(val) => updateHomeStats('stat3Label', val)}
+                        as="span"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Quick Metrics Bar below buttons */}
-            <div className="hero-metrics-grid">
-              {/* Stat 1 */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Award style={{ color: '#F59E0B', flexShrink: 0 }} size={22} />
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat1Value}
-                      onChange={(val) => updateHomeStats('stat1Value', val)}
-                      as="span"
-                    />
-                  </div>
-                  <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat1Label}
-                      onChange={(val) => updateHomeStats('stat1Label', val)}
-                      as="span"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Stat 2 */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <TrendingUp style={{ color: '#EAB308', flexShrink: 0 }} size={22} />
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat2Value}
-                      onChange={(val) => updateHomeStats('stat2Value', val)}
-                      as="span"
-                    />
-                  </div>
-                  <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat2Label}
-                      onChange={(val) => updateHomeStats('stat2Label', val)}
-                      as="span"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Stat 3 */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <ShieldCheck style={{ color: '#D4AF37', flexShrink: 0 }} size={22} />
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', color: '#FFFFFF', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat3Value}
-                      onChange={(val) => updateHomeStats('stat3Value', val)}
-                      as="span"
-                    />
-                  </div>
-                  <div style={{ fontSize: 'clamp(0.68rem, 1.2vw, 0.76rem)', color: '#94A3B8', marginTop: '1px', lineHeight: 1.2 }}>
-                    <EditableField
-                      value={homeStats.stat3Label}
-                      onChange={(val) => updateHomeStats('stat3Label', val)}
-                      as="span"
-                    />
-                  </div>
-                </div>
-              </div>
+            {/* Right Column: Clean Simple Floating Certificate (No Details) */}
+            <div className="hero-cert-col" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <a
+                href="/images/CLM%20GROUP%20OF%20CONSTRUCTION%209001.pdf"
+                target="_blank"
+                rel="noreferrer"
+                title="ISO 9001:2015 Official Certificate (Click to view full PDF)"
+                className="hero-cert-floating-card"
+                style={{
+                  display: 'block',
+                  position: 'relative',
+                  width: '100%',
+                  maxWidth: '315px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backgroundColor: '#FFFFFF',
+                  border: '2px solid rgba(245, 158, 11, 0.55)',
+                  boxShadow: '0 25px 60px rgba(0, 0, 0, 0.65), 0 0 30px rgba(245, 158, 11, 0.25)',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                }}
+              >
+                <img
+                  src="/images/iso-9001-certificate.png"
+                  alt="CLM Group of Construction ISO 9001:2015 Certificate"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    objectFit: 'contain',
+                  }}
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -353,13 +415,26 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '50px' }}>
             <span className="badge-amber" style={{ marginBottom: '16px' }}>
-              OUR EXPERTISE
+              <EditableField
+                value={homeStats.homeServicesBadge}
+                onChange={(val) => updateHomeStats('homeServicesBadge', val)}
+                as="span"
+              />
             </span>
             <h2 className="section-title" style={{ marginBottom: '16px', color: '#0F172A' }}>
-              Civil Engineering Excellence
+              <EditableField
+                value={homeStats.homeServicesTitle}
+                onChange={(val) => updateHomeStats('homeServicesTitle', val)}
+                as="span"
+              />
             </h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              Delivering high-performance structural and architectural solutions tailored to residential and heavy industrial sectors.
+              <EditableField
+                value={homeStats.homeServicesSubtitle}
+                onChange={(val) => updateHomeStats('homeServicesSubtitle', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
 
@@ -547,7 +622,11 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
 
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <button onClick={() => setActiveTab('services')} className="btn-dark">
-              View All Dedicated Service Verticals
+              <EditableField
+                value={homeStats.homeServicesBtn}
+                onChange={(val) => updateHomeStats('homeServicesBtn', val)}
+                as="span"
+              />
             </button>
           </div>
         </div>
@@ -560,7 +639,11 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
           <div className="responsive-grid" style={{ alignItems: 'center' }}>
             <div>
               <span className="badge-gold" style={{ marginBottom: '16px' }}>
-                WHY CHOOSE CLM CONSTRUCTION
+                <EditableField
+                  value={homeStats.homeWhyChooseBadge}
+                  onChange={(val) => updateHomeStats('homeWhyChooseBadge', val)}
+                  as="span"
+                />
               </span>
               <h2
                 className="section-title"
@@ -605,10 +688,19 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                   </div>
                   <div>
                     <h4 style={{ color: '#FFFFFF', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', marginBottom: '4px' }}>
-                      Engineering Cell & IS Code Compliance
+                      <EditableField
+                        value={homeStats.homeWhyPoint1Title}
+                        onChange={(val) => updateHomeStats('homeWhyPoint1Title', val)}
+                        as="span"
+                      />
                     </h4>
                     <p style={{ color: '#94A3B8', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                      Our in-house engineers design structural analysis per IS code, civil, PHE, and electrical systems, converting blueprints into flawless real-world structures.
+                      <EditableField
+                        value={homeStats.homeWhyPoint1Desc}
+                        onChange={(val) => updateHomeStats('homeWhyPoint1Desc', val)}
+                        as="span"
+                        multiline={true}
+                      />
                     </p>
                   </div>
                 </div>
@@ -633,10 +725,19 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                   </div>
                   <div>
                     <h4 style={{ color: '#FFFFFF', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', marginBottom: '4px' }}>
-                      38+ Years Industrial Background & Leadership
+                      <EditableField
+                        value={homeStats.homeWhyPoint2Title}
+                        onChange={(val) => updateHomeStats('homeWhyPoint2Title', val)}
+                        as="span"
+                      />
                     </h4>
                     <p style={{ color: '#94A3B8', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                      Co-founder Mr. Dinesh Kumar Mishra brings nearly four decades of hands-on industrial execution experience across Food & Beverage, Textile, and Auto sectors.
+                      <EditableField
+                        value={homeStats.homeWhyPoint2Desc}
+                        onChange={(val) => updateHomeStats('homeWhyPoint2Desc', val)}
+                        as="span"
+                        multiline={true}
+                      />
                     </p>
                   </div>
                 </div>
@@ -661,10 +762,19 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                   </div>
                   <div>
                     <h4 style={{ color: '#FFFFFF', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', marginBottom: '4px' }}>
-                      Subcontractor Partnerships & Cost Control
+                      <EditableField
+                        value={homeStats.homeWhyPoint3Title}
+                        onChange={(val) => updateHomeStats('homeWhyPoint3Title', val)}
+                        as="span"
+                      />
                     </h4>
                     <p style={{ color: '#94A3B8', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                      Strong partnerships with reliable subcontractors guarantee access to qualified skilled workers, maintaining smooth workflows without timeline delays.
+                      <EditableField
+                        value={homeStats.homeWhyPoint3Desc}
+                        onChange={(val) => updateHomeStats('homeWhyPoint3Desc', val)}
+                        as="span"
+                        multiline={true}
+                      />
                     </p>
                   </div>
                 </div>
@@ -724,21 +834,93 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
         </div>
       </section>
 
+      {/* ISO CERTIFICATION SECTION */}
+      <section id="iso-certificate-section" className="section-padding" style={{ backgroundColor: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
+        <div className="container">
+          <div className="section-header-center">
+            <span className="badge-amber" style={{ marginBottom: '16px' }}>
+              <EditableField
+                value={homeStats.homeIsoBadge}
+                onChange={(val) => updateHomeStats('homeIsoBadge', val)}
+                as="span"
+              />
+            </span>
+            <h2 className="section-title" style={{ color: '#0F172A', marginBottom: '20px' }}>
+              <EditableField
+                value={homeStats.homeIsoTitle}
+                onChange={(val) => updateHomeStats('homeIsoTitle', val)}
+                as="span"
+              />
+            </h2>
+            <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.6 }}>
+              <EditableField
+                value={homeStats.homeIsoDesc}
+                onChange={(val) => updateHomeStats('homeIsoDesc', val)}
+                as="span"
+                multiline={true}
+              />
+            </p>
+          </div>
+          
+          <div style={{ maxWidth: '640px', margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                backgroundColor: '#FFFFFF',
+                padding: 'clamp(12px, 3vw, 20px)',
+                borderRadius: '16px',
+                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.08)',
+                border: '1px solid #E2E8F0',
+                width: '100%',
+                maxWidth: '560px',
+                boxSizing: 'border-box',
+              }}
+            >
+              <img 
+                src="/images/iso-9001-certificate.png" 
+                alt="CLM Group of Construction ISO 9001:2015 Certificate" 
+                style={{ 
+                  width: '100%', 
+                  height: 'auto', 
+                  display: 'block', 
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+                  border: '1px solid #F1F5F9'
+                }} 
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 5. SIGNATURE PROJECTS GRID */}
       <section className="section-padding" style={{ backgroundColor: '#FFFFFF', borderTop: '1px solid #E2E8F0' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '50px', flexWrap: 'wrap', gap: '20px' }}>
             <div>
               <span className="badge-amber" style={{ marginBottom: '16px' }}>
-                PORTFOLIO
+                <EditableField
+                  value={homeStats.homePortfolioBadge}
+                  onChange={(val) => updateHomeStats('homePortfolioBadge', val)}
+                  as="span"
+                />
               </span>
-              <h2 className="section-title" style={{ color: '#0F172A', margin: 0 }}>Signature Projects</h2>
+              <h2 className="section-title" style={{ color: '#0F172A', margin: 0 }}>
+                <EditableField
+                  value={homeStats.homePortfolioTitle}
+                  onChange={(val) => updateHomeStats('homePortfolioTitle', val)}
+                  as="span"
+                />
+              </h2>
             </div>
             <button
               onClick={() => setActiveTab('projects')}
               className="btn-outline-gold"
             >
-              View All Projects <ArrowUpRight size={16} />
+              <EditableField
+                value={homeStats.homePortfolioBtn}
+                onChange={(val) => updateHomeStats('homePortfolioBtn', val)}
+                as="span"
+              /> <ArrowUpRight size={16} />
             </button>
           </div>
 
@@ -770,24 +952,30 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteProject(project.id);
+                      if (window.confirm(`Are you sure you want to delete "${project.title}"?`)) {
+                        deleteProject(project.id);
+                      }
                     }}
                     style={{
                       position: 'absolute',
-                      top: '14px',
-                      right: '14px',
-                      zIndex: 20,
-                      background: 'rgba(239, 68, 68, 0.9)',
+                      top: '12px',
+                      right: '12px',
+                      zIndex: 30,
+                      backgroundColor: '#EF4444',
                       border: 'none',
                       color: '#FFFFFF',
                       borderRadius: '50%',
-                      width: '32px',
-                      height: '32px',
+                      width: '34px',
+                      height: '34px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       cursor: 'pointer',
+                      boxShadow: '0 4px 14px rgba(239, 68, 68, 0.45)',
+                      transition: 'transform 0.2s ease, background-color 0.2s ease',
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     title="Delete project"
                   >
                     <Trash2 size={16} />
@@ -801,8 +989,10 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                     onChange={(val) => updateProject(project.id, 'image', val)}
                     fallbackSrc="/ETP.jpg"
                     buttonLabel="Change Image"
+                    buttonPosition="bottom-right"
+                    buttonStyle={{ bottom: '12px', right: '12px' }}
                   />
-                  <div style={{ position: 'absolute', top: '14px', left: '14px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
+                  <div style={{ position: 'absolute', top: '12px', left: '12px', right: isAdmin ? '54px' : '12px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
                     <span
                       style={{
                         backgroundColor: 'rgba(17, 29, 48, 0.92)',
@@ -944,10 +1134,18 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
-              LEADERSHIP & EXPERIENCE
+              <EditableField
+                value={homeStats.homeLeadershipBadge}
+                onChange={(val) => updateHomeStats('homeLeadershipBadge', val)}
+                as="span"
+              />
             </span>
             <h2 className="section-title" style={{ color: '#FFFFFF' }}>
-              Guided by Decades of Industrial Civil Expertise
+              <EditableField
+                value={homeStats.homeLeadershipTitle}
+                onChange={(val) => updateHomeStats('homeLeadershipTitle', val)}
+                as="span"
+              />
             </h2>
           </div>
 
@@ -991,7 +1189,7 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
                 )}
 
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px', paddingRight: isAdmin ? '38px' : 0 }}>
                     <div
                       style={{
                         width: '52px',
@@ -1050,7 +1248,11 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
 
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '16px' }}>
                     <div style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px' }}>
-                      Key Credentials:
+                      <EditableField
+                        value={homeStats.homeLeadershipCredentials}
+                        onChange={(val) => updateHomeStats('homeLeadershipCredentials', val)}
+                        as="span"
+                      />
                     </div>
                     {person.highlights && person.highlights.map((h, hIdx) => (
                       <div key={hIdx} style={{ fontSize: '0.85rem', color: '#E2E8F0', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
@@ -1157,7 +1359,12 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px' }}>
           <div style={{ maxWidth: '680px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#F59E0B', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px' }}>
-              <HardHat size={14} /> Turnkey Civil Engineering Consultations
+              <HardHat size={14} />{' '}
+              <EditableField
+                value={homeStats.homeCtaEyebrow}
+                onChange={(val) => updateHomeStats('homeCtaEyebrow', val)}
+                as="span"
+              />
             </div>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.1rem)', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#FFFFFF', margin: 0, lineHeight: 1.2 }}>
               <EditableField
@@ -1184,7 +1391,11 @@ export default function HomeTab({ setActiveTab, onOpenQuoteModal, onSelectProjec
               fontSize: '1rem',
             }}
           >
-            Contact Engineering Team <ChevronRight size={18} />
+            <EditableField
+              value={homeStats.homeCtaBtn}
+              onChange={(val) => updateHomeStats('homeCtaBtn', val)}
+              as="span"
+            /> <ChevronRight size={18} />
           </button>
         </div>
       </section>

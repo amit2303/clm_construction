@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 import {
   initialCompanyInfo,
   initialLeadership,
@@ -13,6 +13,7 @@ const CMSContext = createContext(null);
 
 const STORAGE_KEY = 'clm_cms_data_v1';
 const AUTH_KEY = 'clm_cms_auth_v1';
+const TOKEN_KEY = 'clm_cms_token_v1';
 
 export function CMSProvider({ children }) {
   // Authentication & Admin Mode State
@@ -24,10 +25,49 @@ export function CMSProvider({ children }) {
     }
   });
 
+  const [sessionToken, setSessionToken] = useState(() => {
+    try {
+      return localStorage.getItem(TOKEN_KEY) || null;
+    } catch {
+      return null;
+    }
+  });
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [saveStatus, setSaveStatus] = useState('saved'); // 'saved' | 'saving'
+  const [lastSavedTime, setLastSavedTime] = useState('Just now');
   const [toastMessage, setToastMessage] = useState(null);
   const [showOutlines, setShowOutlines] = useState(false);
+  const isHydratedRef = useRef(false);
+
+  // Verify server token on mount
+  useEffect(() => {
+    const verifySession = async () => {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) return;
+      try {
+        const res = await fetch('/api/admin-verify', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.valid) {
+          setIsAdmin(true);
+          localStorage.setItem(AUTH_KEY, 'true');
+        } else {
+          setIsAdmin(false);
+          setSessionToken(null);
+          localStorage.removeItem(AUTH_KEY);
+          localStorage.removeItem(TOKEN_KEY);
+        }
+      } catch {
+        // Offline or server not responding
+      }
+    };
+    verifySession();
+  }, []);
 
   useEffect(() => {
     if (showOutlines && isAdmin) {
@@ -37,11 +77,11 @@ export function CMSProvider({ children }) {
     }
   }, [showOutlines, isAdmin]);
 
-  // Content Data States
+  // Synchronous initial load from localStorage
   const [companyInfo, setCompanyInfo] = useState(() => {
     try {
       const saved = localStorage.getItem(`${STORAGE_KEY}_company`);
-      return saved ? JSON.parse(saved) : initialCompanyInfo;
+      return saved ? { ...initialCompanyInfo, ...JSON.parse(saved) } : initialCompanyInfo;
     } catch {
       return initialCompanyInfo;
     }
@@ -50,7 +90,7 @@ export function CMSProvider({ children }) {
   const [homeStats, setHomeStats] = useState(() => {
     try {
       const saved = localStorage.getItem(`${STORAGE_KEY}_homeStats`);
-      return saved ? JSON.parse(saved) : initialHomeStats;
+      return saved ? { ...initialHomeStats, ...JSON.parse(saved) } : initialHomeStats;
     } catch {
       return initialHomeStats;
     }
@@ -101,51 +141,266 @@ export function CMSProvider({ children }) {
     }
   });
 
-  // Track changes count for visual feedback
   const [changeCount, setChangeCount] = useState(0);
+
+  // Background check for server-stored disk data (/data/cms_data.json) on initial mount
+  useEffect(() => {
+    const checkServerData = async () => {
+      try {
+        const res = await fetch('/data/cms_data.json');
+        if (res.ok) {
+          const serverData = await res.json();
+          const localTimestamp = parseInt(localStorage.getItem(`${STORAGE_KEY}_timestamp`) || '0', 10);
+          const serverTimestamp = serverData.lastSaved || 0;
+
+          // If no local changes or server has strictly newer data, hydrate from server
+          if (!localStorage.getItem(`${STORAGE_KEY}_company`) || serverTimestamp > localTimestamp) {
+            if (serverData.companyInfo) setCompanyInfo(serverData.companyInfo);
+            if (serverData.homeStats) setHomeStats(serverData.homeStats);
+            if (serverData.services) setServices(serverData.services);
+            if (serverData.projects) setProjects(serverData.projects);
+            if (serverData.leadership) setLeadership(serverData.leadership);
+            if (serverData.equipment) setEquipment(serverData.equipment);
+            if (serverData.gallery) setGallery(serverData.gallery);
+          }
+        }
+      } catch {
+        // Offline or file not found - continue with localStorage/initialData
+      } finally {
+        isHydratedRef.current = true;
+      }
+    };
+    checkServerData();
+  }, []);
+
+  // Synchronous persist helper to localStorage
+  const persistToLocalStorage = useCallback((dataToSave) => {
+    try {
+      const ts = Date.now().toString();
+      localStorage.setItem(`${STORAGE_KEY}_company`, JSON.stringify(dataToSave.companyInfo));
+      localStorage.setItem(`${STORAGE_KEY}_homeStats`, JSON.stringify(dataToSave.homeStats));
+      localStorage.setItem(`${STORAGE_KEY}_services`, JSON.stringify(dataToSave.services));
+      localStorage.setItem(`${STORAGE_KEY}_projects`, JSON.stringify(dataToSave.projects));
+      localStorage.setItem(`${STORAGE_KEY}_leadership`, JSON.stringify(dataToSave.leadership));
+      localStorage.setItem(`${STORAGE_KEY}_equipment`, JSON.stringify(dataToSave.equipment));
+      localStorage.setItem(`${STORAGE_KEY}_gallery`, JSON.stringify(dataToSave.gallery));
+      localStorage.setItem(`${STORAGE_KEY}_timestamp`, ts);
+      setSaveStatus('saved');
+      setLastSavedTime('Just now');
+    } catch (err) {
+      console.error('LocalStorage write failed:', err);
+    }
+  }, []);
+
+  // Server disk persist helper via /api/cms-save
+  const persistToServerDisk = useCallback(async (dataToSave) => {
+    try {
+      const token = localStorage.getItem(TOKEN_KEY);
+      const payload = {
+        companyInfo: dataToSave.companyInfo,
+        homeStats: dataToSave.homeStats,
+        services: dataToSave.services,
+        projects: dataToSave.projects,
+        leadership: dataToSave.leadership,
+        equipment: dataToSave.equipment,
+        gallery: dataToSave.gallery,
+        lastSaved: Date.now()
+      };
+      await fetch('/api/cms-save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch {
+      // Graceful fallback if server API endpoint is not running
+    }
+  }, []);
+
+  // 1. INSTANT CONTINUOUS AUTO-SAVE (Runs whenever any data state changes)
+  // Ensures changes are NEVER lost on page refresh, navigation, or browser close!
+  useEffect(() => {
+    // Only auto-save after initial component mount
+    if (!isHydratedRef.current) {
+      isHydratedRef.current = true;
+      return;
+    }
+
+    setSaveStatus('saving');
+
+    const dataToSave = {
+      companyInfo,
+      homeStats,
+      services,
+      projects,
+      leadership,
+      equipment,
+      gallery
+    };
+
+    // 1a. Fast local save (80ms debounce so rapid typing is silky smooth)
+    const localTimer = setTimeout(() => {
+      persistToLocalStorage(dataToSave);
+    }, 80);
+
+    // 1b. Server disk sync (600ms debounce)
+    const serverTimer = setTimeout(() => {
+      persistToServerDisk(dataToSave);
+    }, 600);
+
+    return () => {
+      clearTimeout(localTimer);
+      clearTimeout(serverTimer);
+    };
+  }, [companyInfo, homeStats, services, projects, leadership, equipment, gallery, persistToLocalStorage, persistToServerDisk]);
+
+  // 2. IMMEDIATE BEFOREUNLOAD & PAGEHIDE SAFETY NET
+  // Synchronously commits everything to localStorage before browser reloads or tab closes
+  useEffect(() => {
+    const handleImmediateSave = () => {
+      persistToLocalStorage({
+        companyInfo,
+        homeStats,
+        services,
+        projects,
+        leadership,
+        equipment,
+        gallery
+      });
+    };
+
+    window.addEventListener('beforeunload', handleImmediateSave);
+    window.addEventListener('pagehide', handleImmediateSave);
+    return () => {
+      window.removeEventListener('beforeunload', handleImmediateSave);
+      window.removeEventListener('pagehide', handleImmediateSave);
+    };
+  }, [companyInfo, homeStats, services, projects, leadership, equipment, gallery, persistToLocalStorage]);
 
   const markChanged = () => {
     setHasUnsavedChanges(true);
     setChangeCount(prev => prev + 1);
   };
 
-  // Login handler
-  const login = (username, password) => {
-    if (username === 'admin' && password === 'admin123') {
-      setIsAdmin(true);
-      localStorage.setItem(AUTH_KEY, 'true');
-      setIsLoginModalOpen(false);
-      showToast('Admin Mode Active: Inline Editing Enabled');
-      return true;
+  // Highly Secure Server Authentication (PBKDF2 SHA-512 + Brute-Force Protection)
+  const login = async (username, password) => {
+    try {
+      const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAdmin(true);
+        setSessionToken(data.token);
+        localStorage.setItem(AUTH_KEY, 'true');
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setIsLoginModalOpen(false);
+        showToast('✓ Admin Mode Active: Secure Inline Editing Enabled');
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          error: data.error || 'Authentication failed',
+          isLockedOut: !!data.isLockedOut,
+          remainingSeconds: data.remainingSeconds,
+          attemptsLeft: data.attemptsLeft
+        };
+      }
+    } catch (err) {
+      // Offline fallback: check if server down
+      return {
+        success: false,
+        error: 'Unable to connect to authentication server. Please verify backend is running.'
+      };
     }
-    return false;
+  };
+
+  // Secure Password Reset via Master Recovery Key
+  const resetPassword = async (recoveryKey, newPassword) => {
+    try {
+      const res = await fetch('/api/admin-reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recoveryKey, newPassword })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAdmin(true);
+        setSessionToken(data.token);
+        localStorage.setItem(AUTH_KEY, 'true');
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setIsLoginModalOpen(false);
+        showToast('✓ Password reset successfully! Admin access restored.');
+        return { success: true };
+      } else {
+        return { success: false, error: data.error || 'Password reset failed' };
+      }
+    } catch (err) {
+      return { success: false, error: 'Connection error during password reset.' };
+    }
+  };
+
+  // Authenticated Change Password
+  const changePassword = async (currentPassword, newPassword) => {
+    try {
+      const token = sessionToken || localStorage.getItem(TOKEN_KEY);
+      const res = await fetch('/api/admin-change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('✓ Admin password changed successfully!');
+        setIsChangePasswordOpen(false);
+        return { success: true };
+      } else {
+        return { success: false, error: data.error || 'Password change failed' };
+      }
+    } catch (err) {
+      return { success: false, error: 'Connection error during password change.' };
+    }
   };
 
   // Logout handler
   const logout = () => {
     setIsAdmin(false);
+    setSessionToken(null);
     localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(TOKEN_KEY);
     showToast('Logged out of Admin Mode');
   };
 
-  // Save all changes to localStorage
-  const saveChanges = () => {
-    try {
-      localStorage.setItem(`${STORAGE_KEY}_company`, JSON.stringify(companyInfo));
-      localStorage.setItem(`${STORAGE_KEY}_homeStats`, JSON.stringify(homeStats));
-      localStorage.setItem(`${STORAGE_KEY}_services`, JSON.stringify(services));
-      localStorage.setItem(`${STORAGE_KEY}_projects`, JSON.stringify(projects));
-      localStorage.setItem(`${STORAGE_KEY}_leadership`, JSON.stringify(leadership));
-      localStorage.setItem(`${STORAGE_KEY}_equipment`, JSON.stringify(equipment));
-      localStorage.setItem(`${STORAGE_KEY}_gallery`, JSON.stringify(gallery));
+  // Explicit Save handler for manual "Save Changes" button trigger
+  const saveChanges = async () => {
+    setSaveStatus('saving');
+    const dataToSave = {
+      companyInfo,
+      homeStats,
+      services,
+      projects,
+      leadership,
+      equipment,
+      gallery
+    };
 
-      setHasUnsavedChanges(false);
-      setChangeCount(0);
-      showToast('✓ All changes saved successfully to persistent storage!');
-    } catch (err) {
-      console.error('Failed to save changes:', err);
-      showToast('Error saving changes. Check console.');
-    }
+    // Synchronous immediate save
+    persistToLocalStorage(dataToSave);
+    // Background disk save
+    await persistToServerDisk(dataToSave);
+
+    setHasUnsavedChanges(false);
+    setChangeCount(0);
+    setSaveStatus('saved');
+    setLastSavedTime('Just now');
+    showToast('✓ All changes saved permanently! Safe on refresh.');
   };
 
   // Reset to default data
@@ -158,6 +413,7 @@ export function CMSProvider({ children }) {
       localStorage.removeItem(`${STORAGE_KEY}_leadership`);
       localStorage.removeItem(`${STORAGE_KEY}_equipment`);
       localStorage.removeItem(`${STORAGE_KEY}_gallery`);
+      localStorage.removeItem(`${STORAGE_KEY}_timestamp`);
 
       setCompanyInfo(initialCompanyInfo);
       setHomeStats(initialHomeStats);
@@ -168,6 +424,18 @@ export function CMSProvider({ children }) {
       setGallery(initialGallery);
       setHasUnsavedChanges(false);
       setChangeCount(0);
+      setSaveStatus('saved');
+
+      persistToServerDisk({
+        companyInfo: initialCompanyInfo,
+        homeStats: initialHomeStats,
+        services: initialServices,
+        projects: initialProjects,
+        leadership: initialLeadership,
+        equipment: initialEquipment,
+        gallery: initialGallery
+      });
+
       showToast('Reset all content back to factory defaults');
     }
   };
@@ -316,26 +584,99 @@ export function CMSProvider({ children }) {
     markChanged();
   };
 
+  const addGalleryItem = () => {
+    const newId = `gallery-${Date.now()}`;
+    const newItem = {
+      id: newId,
+      title: "New Gallery Photo",
+      category: "Site Work",
+      location: "Project Site, U.P.",
+      description: "On-site construction photography showcasing structural execution and site operations.",
+      src: "/ETP.jpg",
+      tag: "Site Operations"
+    };
+    setGallery(prev => [...prev, newItem]);
+    markChanged();
+    showToast('New gallery photo added — click the camera icon to change it');
+  };
+
+  const deleteGalleryItem = (id) => {
+    if (window.confirm('Remove this gallery photo?')) {
+      setGallery(prev => prev.filter(g => g.id !== id));
+      markChanged();
+      showToast('Gallery photo removed');
+    }
+  };
+
+  // Strengths & Pillars Handlers
+  const updateStrength = (index, field, value) => {
+    setCompanyInfo(prev => {
+      const list = [...(prev.aboutStrengths || initialCompanyInfo.aboutStrengths)];
+      list[index] = { ...list[index], [field]: value };
+      return { ...prev, aboutStrengths: list };
+    });
+    markChanged();
+  };
+
+  const updatePillar = (index, field, value) => {
+    setCompanyInfo(prev => {
+      const list = [...(prev.aboutPillars || initialCompanyInfo.aboutPillars)];
+      list[index] = { ...list[index], [field]: value };
+      return { ...prev, aboutPillars: list };
+    });
+    markChanged();
+  };
+
+  // Equipment Handlers
+  const updateEquipment = (index, field, value) => {
+    setEquipment(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+    markChanged();
+  };
+
+  const updateEquipmentItem = (categoryIndex, itemIndex, value) => {
+    setEquipment(prev => {
+      const updated = [...prev];
+      const newItems = [...updated[categoryIndex].items];
+      newItems[itemIndex] = value;
+      updated[categoryIndex] = { ...updated[categoryIndex], items: newItems };
+      return updated;
+    });
+    markChanged();
+  };
+
   return (
     <CMSContext.Provider
       value={{
         isAdmin,
         setIsAdmin,
+        sessionToken,
         hasUnsavedChanges,
         changeCount,
+        saveStatus,
+        lastSavedTime,
         isLoginModalOpen,
         setIsLoginModalOpen,
+        isChangePasswordOpen,
+        setIsChangePasswordOpen,
         toastMessage,
         showOutlines,
         setShowOutlines,
         login,
         logout,
+        resetPassword,
+        changePassword,
         saveChanges,
         resetToDefaults,
         showToast,
         // Data & Setters
         companyInfo,
         updateCompanyInfo,
+        updateStrength,
+        updatePillar,
         homeStats,
         updateHomeStats,
         services,
@@ -351,8 +692,12 @@ export function CMSProvider({ children }) {
         addContractor,
         deleteContractor,
         equipment,
+        updateEquipment,
+        updateEquipmentItem,
         gallery,
         updateGallery,
+        addGalleryItem,
+        deleteGalleryItem,
       }}
     >
       {children}

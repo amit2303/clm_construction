@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import QuoteModal from './components/QuoteModal';
 import ProjectModal from './components/ProjectModal';
 import AdminLoginModal from './components/AdminLoginModal';
+import ChangePasswordModal from './components/ChangePasswordModal';
 import SaveButton from './components/SaveButton';
 import Toast from './components/Toast';
 import MobileBottomBar from './components/MobileBottomBar';
@@ -104,6 +105,7 @@ function AppContent() {
       />
 
       <AdminLoginModal />
+      <ChangePasswordModal />
 
       {/* Floating Save Changes Button (Bottom Right) */}
       <SaveButton />

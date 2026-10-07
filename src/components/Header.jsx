@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useCMS } from '../context/CMSContext';
 import EditableField from './EditableField';
 import EditableImage from './EditableImage';
@@ -8,18 +9,34 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
   const { companyInfo, updateCompanyInfo, isAdmin } = useCMS();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const headerRef = useRef(null);
+  const [headerBottom, setHeaderBottom] = useState(88);
+
+  const updateHeaderBottom = () => {
+    if (headerRef.current) {
+      const rect = headerRef.current.getBoundingClientRect();
+      setHeaderBottom(Math.round(rect.bottom));
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      updateHeaderBottom();
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', updateHeaderBottom);
+    updateHeaderBottom();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateHeaderBottom);
+    };
   }, []);
 
-  // Prevent background scroll when mobile menu is open
+  // Prevent background scroll and update position when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
+      updateHeaderBottom();
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -47,16 +64,17 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
 
   return (
     <header
+      ref={headerRef}
       style={{
         position: 'sticky',
         top: isAdmin ? '44px' : 0,
         zIndex: 1000,
-        transition: 'background-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease',
+        transition: 'background-color 0.25s ease, box-shadow 0.25s ease',
         backgroundColor: isScrolled ? 'rgba(17, 29, 48, 0.97)' : '#16263E',
         backdropFilter: isScrolled ? 'blur(16px)' : 'none',
         WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: isScrolled ? '0 10px 30px rgba(15, 30, 54, 0.35)' : 'none',
+        boxShadow: isScrolled ? '0 8px 28px rgba(15, 30, 54, 0.3)' : 'none',
       }}
     >
       {/* 1. TOP ANNOUNCEMENT / INFO BAR (Responsive & Clean) */}
@@ -80,7 +98,10 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
         >
           {/* Left: Certifications & Operating Region */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            <span
+            <a
+              href="/images/CLM%20GROUP%20OF%20CONSTRUCTION%209001.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -88,14 +109,36 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
                 color: '#F59E0B',
                 fontWeight: 700,
                 fontSize: '0.78rem',
+                textDecoration: 'none',
+                cursor: 'pointer'
               }}
+              title="View ISO 9001:2015 Certificate"
             >
               <HardHat size={14} style={{ flexShrink: 0 }} />
-              <span className="desktop-cert-text">IS Code Structural Engineering & Quality Management</span>
-              <span className="mobile-cert-text">IS Code Certified</span>
-            </span>
+              <span className="desktop-cert-text">
+                <EditableField
+                  value={companyInfo.headerCertText}
+                  onChange={(val) => updateCompanyInfo('headerCertText', val)}
+                  as="span"
+                />
+              </span>
+              <span className="mobile-cert-text">
+                <EditableField
+                  value={companyInfo.headerCertText}
+                  onChange={(val) => updateCompanyInfo('headerCertText', val)}
+                  as="span"
+                />
+              </span>
+            </a>
+
             <span className="hide-mobile" style={{ opacity: 0.3 }}>|</span>
-            <span className="hide-mobile" style={{ color: '#94A3B8', fontSize: '0.78rem' }}>Operating: Mathura & Regional U.P.</span>
+            <span className="hide-mobile" style={{ color: '#94A3B8', fontSize: '0.78rem' }}>
+              <EditableField
+                value={companyInfo.headerRegionText}
+                onChange={(val) => updateCompanyInfo('headerRegionText', val)}
+                as="span"
+              />
+            </span>
           </div>
 
           {/* Right: Direct Phone & Hours */}
@@ -177,6 +220,8 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
             className="brand-logo-img"
             onChange={(val) => updateCompanyInfo('logoUrl', val)}
             buttonLabel="Logo"
+            compact={true}
+            buttonStyle={{ top: '2px', right: '2px', padding: '2px 6px', fontSize: '0.68rem' }}
           />
           <div>
             <div
@@ -274,7 +319,11 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
             className="btn-primary hide-mobile"
             style={{ padding: '10px 22px', fontSize: '0.9rem', minHeight: '44px' }}
           >
-            Get a Quote <ChevronRight size={16} />
+            <EditableField
+              value={companyInfo.headerCtaButton}
+              onChange={(val) => updateCompanyInfo('headerCtaButton', val)}
+              as="span"
+            /> <ChevronRight size={16} />
           </button>
 
           {/* Mobile Hamburger Toggle Button */}
@@ -301,144 +350,150 @@ export default function Header({ activeTab, setActiveTab, onOpenQuoteModal }) {
         </div>
       </div>
 
-      {/* 3. PROFESSIONAL MOBILE SLIDE-OVER DRAWER */}
-      {isMobileMenuOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            top: isAdmin ? '118px' : '74px',
-            zIndex: 999,
-            backgroundColor: 'rgba(17, 29, 48, 0.75)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
+      {/* 3. PROFESSIONAL MOBILE SLIDE-OVER DRAWER (Portaled to document.body to prevent clipping when scrolled) */}
+      {isMobileMenuOpen &&
+        createPortal(
           <div
             style={{
-              backgroundColor: '#16263E',
-              borderBottom: '2px solid #F59E0B',
-              boxShadow: '0 20px 40px rgba(15,30,54,0.6)',
-              padding: '24px 20px 30px 20px',
+              position: 'fixed',
+              top: `${headerBottom}px`,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 999999,
+              backgroundColor: 'rgba(11, 20, 35, 0.75)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '16px',
-              maxHeight: 'calc(100vh - 120px)',
-              overflowY: 'auto',
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
-            {/* Mobile Nav Links */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {navItems.map((item) => {
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    style={{
-                      background: isActive
-                        ? 'linear-gradient(135deg, rgba(249, 115, 22, 0.16) 0%, rgba(234, 179, 8, 0.12) 100%)'
-                        : 'rgba(255, 255, 255, 0.03)',
-                      border: isActive ? '1px solid rgba(245, 158, 11, 0.4)' : '1px solid rgba(255, 255, 255, 0.05)',
-                      color: isActive ? '#F59E0B' : '#F8FAFC',
-                      fontWeight: isActive ? 700 : 600,
-                      fontSize: '1.05rem',
-                      fontFamily: 'var(--font-heading)',
-                      textAlign: 'left',
-                      padding: '14px 18px',
-                      borderRadius: '10px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    <span>{item.label}</span>
-                    <ChevronRight size={18} style={{ color: isActive ? '#F59E0B' : '#64748B' }} />
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Mobile CTA: Get a Quote */}
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenQuoteModal();
-              }}
-              className="btn-primary"
-              style={{
-                width: '100%',
-                padding: '15px',
-                fontSize: '1rem',
-                marginTop: '6px',
-                borderRadius: '10px',
-              }}
-            >
-              <span>Request Free Estimation</span>
-              <ArrowRight size={18} />
-            </button>
-
-            {/* Quick Contact Desk on Phone */}
             <div
               style={{
-                marginTop: '10px',
-                padding: '16px',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                borderRadius: '10px',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
+                backgroundColor: '#16263E',
+                borderBottom: '2.5px solid #F59E0B',
+                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.7)',
+                padding: '20px 20px 28px 20px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '12px',
+                gap: '14px',
+                maxHeight: `calc(100vh - ${headerBottom + 10}px)`,
+                overflowY: 'auto',
+                WebkitOverflowScrolling: 'touch',
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ color: '#94A3B8', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
-                Direct Engineering Support
+              {/* Mobile Nav Links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {navItems.map((item) => {
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNavClick(item.id)}
+                      style={{
+                        background: isActive
+                          ? 'linear-gradient(135deg, rgba(249, 115, 22, 0.16) 0%, rgba(234, 179, 8, 0.12) 100%)'
+                          : 'rgba(255, 255, 255, 0.03)',
+                        border: isActive ? '1px solid rgba(245, 158, 11, 0.4)' : '1px solid rgba(255, 255, 255, 0.05)',
+                        color: isActive ? '#F59E0B' : '#F8FAFC',
+                        fontWeight: isActive ? 700 : 600,
+                        fontSize: '1.05rem',
+                        fontFamily: 'var(--font-heading)',
+                        textAlign: 'left',
+                        padding: '14px 18px',
+                        borderRadius: '10px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronRight size={18} style={{ color: isActive ? '#F59E0B' : '#64748B' }} />
+                    </button>
+                  );
+                })}
               </div>
-              <a
-                href={`tel:${primaryPhone.replace(/\s+/g, '')}`}
-                style={{
-                  color: '#FFFFFF',
-                  fontWeight: 700,
-                  fontSize: '0.96rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
-              >
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Phone size={16} style={{ color: '#F59E0B' }} />
-                </div>
-                <span>{primaryPhone}</span>
-              </a>
 
-              <a
-                href={`mailto:${companyInfo.email}`}
+              {/* Mobile CTA: Get a Quote */}
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenQuoteModal();
+                }}
+                className="btn-primary"
                 style={{
-                  color: '#94A3B8',
-                  fontWeight: 500,
-                  fontSize: '0.88rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
+                  width: '100%',
+                  padding: '14px',
+                  fontSize: '1rem',
+                  marginTop: '4px',
+                  borderRadius: '10px',
+                  justifyContent: 'center',
                 }}
               >
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'rgba(234, 179, 8, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Mail size={15} style={{ color: '#EAB308' }} />
+                <span>Request Free Estimation</span>
+                <ArrowRight size={18} />
+              </button>
+
+              {/* Quick Contact Desk on Phone */}
+              <div
+                style={{
+                  marginTop: '6px',
+                  padding: '16px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                }}
+              >
+                <div style={{ color: '#94A3B8', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
+                  Direct Engineering Support
                 </div>
-                <span>{companyInfo.email}</span>
-              </a>
+                <a
+                  href={`tel:${primaryPhone.replace(/\s+/g, '')}`}
+                  style={{
+                    color: '#FFFFFF',
+                    fontWeight: 700,
+                    fontSize: '0.96rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                >
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Phone size={16} style={{ color: '#F59E0B' }} />
+                  </div>
+                  <span>{primaryPhone}</span>
+                </a>
+
+                <a
+                  href={`mailto:${companyInfo.email || 'clm.civil09@gmail.com'}`}
+                  style={{
+                    color: '#94A3B8',
+                    fontWeight: 500,
+                    fontSize: '0.88rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                >
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'rgba(234, 179, 8, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Mail size={15} style={{ color: '#EAB308' }} />
+                  </div>
+                  <span>{companyInfo.email || 'clm.civil09@gmail.com'}</span>
+                </a>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
 
       <style>{`
         .mobile-cert-text { display: none; }

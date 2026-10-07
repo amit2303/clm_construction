@@ -21,11 +21,15 @@ import {
 
 export default function ServicesTab({ onOpenQuoteModal }) {
   const {
+    companyInfo,
+    updateCompanyInfo,
     services,
     updateService,
     addService,
     deleteService,
     equipment,
+    updateEquipment,
+    updateEquipmentItem,
     isAdmin
   } = useCMS();
 
@@ -69,7 +73,11 @@ export default function ServicesTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ maxWidth: '750px' }}>
             <span className="badge-amber" style={{ marginBottom: '16px' }}>
-              OUR CAPABILITIES & SCOPE
+              <EditableField
+                value={companyInfo.servicesBannerBadge}
+                onChange={(val) => updateCompanyInfo('servicesBannerBadge', val)}
+                as="span"
+              />
             </span>
             <h1
               className="page-banner-heading"
@@ -81,10 +89,19 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                 marginBottom: '20px',
               }}
             >
-              Comprehensive Civil & Structural Engineering Services
+              <EditableField
+                value={companyInfo.servicesBannerTitle}
+                onChange={(val) => updateCompanyInfo('servicesBannerTitle', val)}
+                as="span"
+              />
             </h1>
             <p style={{ color: '#CBD5E1', fontSize: '1.08rem', lineHeight: 1.65 }}>
-              CLM Group of Construction handles the entire life-cycle of building and developing structures — from structural IS code planning and architectural design to full turnkey physical construction.
+              <EditableField
+                value={companyInfo.servicesBannerDesc}
+                onChange={(val) => updateCompanyInfo('servicesBannerDesc', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
         </div>
@@ -134,7 +151,7 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                 )}
 
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px', paddingRight: isAdmin ? '44px' : 0 }}>
                     <div
                       style={{
                         width: '58px',
@@ -199,7 +216,11 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                     }}
                   >
                     <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0F172A', textTransform: 'uppercase', marginBottom: '4px', letterSpacing: '0.04em' }}>
-                      Ideal Project Sector:
+                      <EditableField
+                        value={companyInfo.servicesIdealSectorLabel}
+                        onChange={(val) => updateCompanyInfo('servicesIdealSectorLabel', val)}
+                        as="span"
+                      />
                     </div>
                     <div style={{ fontSize: '0.92rem', color: '#334155', fontWeight: 600 }}>
                       <EditableField
@@ -240,7 +261,11 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                         marginBottom: '14px',
                       }}
                     >
-                      Detailed Scope of Work
+                      <EditableField
+                        value={companyInfo.servicesScopeHeading}
+                        onChange={(val) => updateCompanyInfo('servicesScopeHeading', val)}
+                        as="span"
+                      />
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       {service.scopeOfWork.map((item, itemIdx) => (
@@ -289,7 +314,11 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                         marginBottom: '10px',
                       }}
                     >
-                      Key Strategic Benefits:
+                      <EditableField
+                        value={companyInfo.servicesBenefitsHeading}
+                        onChange={(val) => updateCompanyInfo('servicesBenefitsHeading', val)}
+                        as="span"
+                      />
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       {service.keyBenefits.map((b, bIdx) => (
@@ -367,13 +396,26 @@ export default function ServicesTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
-              EQUIPMENT INVENTORY
+              <EditableField
+                value={companyInfo.servicesEquipmentBadge}
+                onChange={(val) => updateCompanyInfo('servicesEquipmentBadge', val)}
+                as="span"
+              />
             </span>
             <h2 className="section-title" style={{ color: '#FFFFFF', marginBottom: '12px' }}>
-              Machinery & Equipment Fleet
+              <EditableField
+                value={companyInfo.servicesEquipmentTitle}
+                onChange={(val) => updateCompanyInfo('servicesEquipmentTitle', val)}
+                as="span"
+              />
             </h2>
             <p className="section-subtitle-dark" style={{ margin: '0 auto' }}>
-              CLM Construction Company deploys high-capacity machinery across earthmoving, material handling, concrete, power tools, and GPS surveying.
+              <EditableField
+                value={companyInfo.servicesEquipmentSubtitle}
+                onChange={(val) => updateCompanyInfo('servicesEquipmentSubtitle', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
 
@@ -405,18 +447,36 @@ export default function ServicesTab({ onOpenQuoteModal }) {
                   {getEquipmentIcon(eq.icon)}
                 </div>
                 <h3 style={{ fontSize: '1.18rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '8px' }}>
-                  {eq.category}
+                  <EditableField
+                    value={eq.category}
+                    onChange={(val) => updateEquipment(idx, 'category', val)}
+                    as="span"
+                  />
                 </h3>
                 <p style={{ color: '#94A3B8', fontSize: '0.85rem', lineHeight: '1.5', marginBottom: '16px' }}>
-                  {eq.description}
+                  <EditableField
+                    value={eq.description}
+                    onChange={(val) => updateEquipment(idx, 'description', val)}
+                    as="span"
+                    multiline={true}
+                  />
                 </p>
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
                   <div style={{ fontSize: '0.75rem', color: '#F59E0B', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.04em' }}>
-                    Deployed Equipment:
+                    <EditableField
+                      value={companyInfo.servicesDeployedLabel}
+                      onChange={(val) => updateCompanyInfo('servicesDeployedLabel', val)}
+                      as="span"
+                    />
                   </div>
                   {eq.items.map((item, itemIdx) => (
                     <div key={itemIdx} style={{ fontSize: '0.85rem', color: '#CBD5E1', padding: '3px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ color: '#F59E0B' }}>•</span> {item}
+                      <span style={{ color: '#F59E0B' }}>•</span>{' '}
+                      <EditableField
+                        value={item}
+                        onChange={(val) => updateEquipmentItem(idx, itemIdx, val)}
+                        as="span"
+                      />
                     </div>
                   ))}
                 </div>
@@ -448,13 +508,26 @@ export default function ServicesTab({ onOpenQuoteModal }) {
         />
         <div className="container">
           <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '12px' }}>
-            Need Custom Technical or Construction Specifications?
+            <EditableField
+              value={companyInfo.servicesCtaHeading}
+              onChange={(val) => updateCompanyInfo('servicesCtaHeading', val)}
+              as="span"
+            />
           </h2>
           <p style={{ color: '#94A3B8', fontSize: '1rem', maxWidth: '600px', margin: '0 auto 24px auto', lineHeight: 1.6 }}>
-            Speak directly with our Engineering Cell for structural analysis, load calculations, and site evaluation.
+            <EditableField
+              value={companyInfo.servicesCtaSubtitle}
+              onChange={(val) => updateCompanyInfo('servicesCtaSubtitle', val)}
+              as="span"
+              multiline={true}
+            />
           </p>
           <button onClick={onOpenQuoteModal} className="btn-primary">
-            Contact Engineering Cell
+            <EditableField
+              value={companyInfo.servicesCtaButton}
+              onChange={(val) => updateCompanyInfo('servicesCtaButton', val)}
+              as="span"
+            />
           </button>
         </div>
       </section>

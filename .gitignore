@@ -1,2 +1,5 @@
 .DS_Store
 node_modules/
+private/
+ADMIN_SETUP_CREDENTIALS.txt
+*.backup.json

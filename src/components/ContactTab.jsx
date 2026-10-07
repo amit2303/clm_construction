@@ -32,7 +32,11 @@ export default function ContactTab() {
         <div className="container">
           <div style={{ maxWidth: '750px' }}>
             <span className="badge-amber" style={{ marginBottom: '16px' }}>
-              DIRECT CONTACT & INQUIRIES
+              <EditableField
+                value={companyInfo.contactBannerBadge}
+                onChange={(val) => updateCompanyInfo('contactBannerBadge', val)}
+                as="span"
+              />
             </span>
             <h1
               className="page-banner-heading"
@@ -44,10 +48,19 @@ export default function ContactTab() {
                 marginBottom: '20px',
               }}
             >
-              Contact CLM Construction Company
+              <EditableField
+                value={companyInfo.contactBannerTitle}
+                onChange={(val) => updateCompanyInfo('contactBannerTitle', val)}
+                as="span"
+              />
             </h1>
             <p style={{ color: '#CBD5E1', fontSize: '1.08rem', lineHeight: 1.65 }}>
-              Reach out directly to our civil engineering leadership team for project discussions, site visits, structural analysis, or tender proposals.
+              <EditableField
+                value={companyInfo.contactBannerDesc}
+                onChange={(val) => updateCompanyInfo('contactBannerDesc', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
         </div>
@@ -68,7 +81,11 @@ export default function ContactTab() {
               }}
             >
               <span className="badge-amber" style={{ marginBottom: '12px' }}>
-                DIRECT PHONE & EMAIL
+                <EditableField
+                  value={companyInfo.contactPhoneBadge}
+                  onChange={(val) => updateCompanyInfo('contactPhoneBadge', val)}
+                  as="span"
+                />
               </span>
               <h3
                 style={{
@@ -79,10 +96,19 @@ export default function ContactTab() {
                   marginBottom: '10px',
                 }}
               >
-                Call or Email Our Team
+                <EditableField
+                  value={companyInfo.contactPhoneTitle}
+                  onChange={(val) => updateCompanyInfo('contactPhoneTitle', val)}
+                  as="span"
+                />
               </h3>
               <p style={{ color: '#64748B', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '24px' }}>
-                Connect directly with our engineering officers and project managers. No forms or waiting — instant phone call and email support.
+                <EditableField
+                  value={companyInfo.contactPhoneDesc}
+                  onChange={(val) => updateCompanyInfo('contactPhoneDesc', val)}
+                  as="span"
+                  multiline={true}
+                />
               </p>
 
               {/* Direct Phone Numbers */}
@@ -249,10 +275,18 @@ export default function ContactTab() {
                 </div>
                 <div>
                   <span className="badge-gold" style={{ marginBottom: '4px' }}>
-                    REGISTERED OFFICE
+                    <EditableField
+                      value={companyInfo.contactOfficeBadge}
+                      onChange={(val) => updateCompanyInfo('contactOfficeBadge', val)}
+                      as="span"
+                    />
                   </span>
                   <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0F172A', margin: 0 }}>
-                    Mathura Headquarters
+                    <EditableField
+                      value={companyInfo.contactOfficeTitle}
+                      onChange={(val) => updateCompanyInfo('contactOfficeTitle', val)}
+                      as="span"
+                    />
                   </h3>
                 </div>
               </div>
@@ -384,41 +418,7 @@ export default function ContactTab() {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section style={{ backgroundColor: '#FFFFFF', padding: '60px 0', borderTop: '1px solid #E2E8F0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <span className="badge-gold" style={{ marginBottom: '8px' }}>
-              OFFICE LOCATION MAP
-            </span>
-            <h3 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: '#0F172A', fontWeight: 800 }}>
-              Mathura (281004) Uttar Pradesh
-            </h3>
-            <p style={{ color: '#64748B', fontSize: '0.95rem' }}>
-              Shri Ji Garden Heights, 2nd floor-205, Mathura (U.P.)
-            </p>
-          </div>
-          <div
-            style={{
-              borderRadius: '14px',
-              overflow: 'hidden',
-              border: '1px solid #E2E8F0',
-              height: '400px',
-              boxShadow: '0 8px 30px rgba(0,0,0,0.05)',
-            }}
-          >
-            <iframe
-              title="CLM Construction Mathura Map"
-              src="https://maps.google.com/maps?q=Mathura%20281004%20Uttar%20Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={false}
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }

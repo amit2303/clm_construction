@@ -72,6 +72,8 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
                 className="brand-logo-img"
                 onChange={(val) => updateCompanyInfo('logoUrl', val)}
                 buttonLabel="Logo"
+                compact={true}
+                buttonStyle={{ top: '2px', right: '2px', padding: '2px 6px', fontSize: '0.68rem' }}
               />
               <div>
                 <h3
@@ -113,10 +115,18 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
             </div>
 
             <p style={{ color: '#94A3B8', fontSize: '0.88rem', lineHeight: '1.65', marginBottom: '22px' }}>
-              A respected regional contractor in Uttar Pradesh, specializing in full-cycle project planning, civil framing, IS Code structural design, residential villas, and commercial/industrial infrastructure.
+              <EditableField
+                value={companyInfo.footerAbout}
+                onChange={(val) => updateCompanyInfo('footerAbout', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
 
-            <div
+            <a
+              href="/images/CLM%20GROUP%20OF%20CONSTRUCTION%209001.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -129,11 +139,13 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
                 fontSize: '0.82rem',
                 fontWeight: 600,
                 alignSelf: 'flex-start',
+                textDecoration: 'none',
               }}
+              title="View ISO 9001:2015 Certificate"
             >
               <ShieldCheck size={16} style={{ flexShrink: 0 }} />
-              <span>IS Code Structural Standard Compliant</span>
-            </div>
+              <span>ISO 9001: 2015 Certified</span>
+            </a>
           </div>
 
           {/* Column 2: Quick Navigation */}
@@ -149,7 +161,11 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
                   lineHeight: 1.2,
                 }}
               >
-                Quick Navigation
+                <EditableField
+                  value={companyInfo.footerNavTitle}
+                  onChange={(val) => updateCompanyInfo('footerNavTitle', val)}
+                  as="span"
+                />
               </h4>
               <div
                 style={{
@@ -220,7 +236,11 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
                   lineHeight: 1.2,
                 }}
               >
-                Verified Office Contact
+                <EditableField
+                  value={companyInfo.footerContactTitle}
+                  onChange={(val) => updateCompanyInfo('footerContactTitle', val)}
+                  as="span"
+                />
               </h4>
               <div
                 style={{
@@ -338,7 +358,11 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
                   lineHeight: 1.2,
                 }}
               >
-                Have a Project in Mind?
+                <EditableField
+                  value={companyInfo.footerCtaTitle}
+                  onChange={(val) => updateCompanyInfo('footerCtaTitle', val)}
+                  as="span"
+                />
               </h4>
               <div
                 style={{
@@ -352,7 +376,12 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
             </div>
 
             <p style={{ fontSize: '0.88rem', color: '#94A3B8', lineHeight: '1.6', marginBottom: '20px' }}>
-              Get in touch with our engineering team for preliminary budget estimations, site inspections, or structural planning.
+              <EditableField
+                value={companyInfo.footerCtaDesc}
+                onChange={(val) => updateCompanyInfo('footerCtaDesc', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
 
             <button
@@ -369,7 +398,13 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
               }}
             >
               <Phone size={16} />
-              <span>Contact Engineering Team</span>
+              <span>
+                <EditableField
+                  value={companyInfo.footerCtaButton}
+                  onChange={(val) => updateCompanyInfo('footerCtaButton', val)}
+                  as="span"
+                />
+              </span>
             </button>
           </div>
         </div>
@@ -398,7 +433,11 @@ export default function Footer({ setActiveTab, onOpenQuoteModal }) {
             }}
             title="Tip: Triple-click here to authenticate as Admin"
           >
-            © {new Date().getFullYear()} <strong style={{ color: '#CBD5E1' }}>{companyInfo.name}</strong>. All rights reserved. Quality is Our Blueprint.
+            <EditableField
+              value={companyInfo.footerCopyright}
+              onChange={(val) => updateCompanyInfo('footerCopyright', val)}
+              as="span"
+            />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>

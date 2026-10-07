@@ -18,6 +18,8 @@ export default function AboutTab({ onOpenQuoteModal }) {
   const {
     companyInfo,
     updateCompanyInfo,
+    updateStrength,
+    updatePillar,
     leadership,
     updateLeadership,
     addContractor,
@@ -25,28 +27,9 @@ export default function AboutTab({ onOpenQuoteModal }) {
     isAdmin
   } = useCMS();
 
-  const strengths = [
-    {
-      title: 'Team Expertise',
-      desc: 'A highly skilled workforce with experience in various construction projects ensuring top-tier quality and execution efficiency.',
-      icon: Users,
-    },
-    {
-      title: 'Efficient Operations',
-      desc: 'Streamlined processes, effective project management, and a focus on cost control contributing to timely project completion within budget.',
-      icon: Briefcase,
-    },
-    {
-      title: 'Strong Reputation',
-      desc: 'A history of successful projects and satisfied clients leading to positive word-of-mouth referrals and a trusted brand image.',
-      icon: Award,
-    },
-    {
-      title: 'Subcontractor Relationships',
-      desc: 'Building strong partnerships with reliable subcontractors guarantees access to qualified workers and ensures a smooth workflow.',
-      icon: ShieldCheck,
-    },
-  ];
+  const strengthIcons = [Users, Briefcase, Award, ShieldCheck];
+  const strengthsList = companyInfo.aboutStrengths || [];
+  const pillarsList = companyInfo.aboutPillars || [];
 
   return (
     <div>
@@ -66,7 +49,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ maxWidth: '750px' }}>
             <span className="badge-amber" style={{ marginBottom: '16px' }}>
-              ABOUT CLM GROUP OF CONSTRUCTION
+              <EditableField
+                value={companyInfo.aboutBannerBadge}
+                onChange={(val) => updateCompanyInfo('aboutBannerBadge', val)}
+                as="span"
+              />
             </span>
             <h1
               className="page-banner-heading"
@@ -78,7 +65,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
                 marginBottom: '20px',
               }}
             >
-              Built on Trust, Precision Engineering & Craftsmanship
+              <EditableField
+                value={companyInfo.aboutBannerTitle}
+                onChange={(val) => updateCompanyInfo('aboutBannerTitle', val)}
+                as="span"
+              />
             </h1>
             <p style={{ color: '#CBD5E1', fontSize: '1.08rem', lineHeight: 1.65 }}>
               <EditableField
@@ -123,7 +114,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
                 <Target size={24} />
               </div>
               <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0F172A', marginBottom: '12px' }}>
-                Our Mission
+                <EditableField
+                  value={companyInfo.aboutMissionTitle}
+                  onChange={(val) => updateCompanyInfo('aboutMissionTitle', val)}
+                  as="span"
+                />
               </h3>
               <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '16px' }}>
                 "
@@ -149,13 +144,21 @@ export default function AboutTab({ onOpenQuoteModal }) {
                   fontWeight: 700,
                 }}
               >
-                Targeting{' '}
+                <EditableField
+                  value={companyInfo.aboutMissionBadgePrefix}
+                  onChange={(val) => updateCompanyInfo('aboutMissionBadgePrefix', val)}
+                  as="span"
+                />{' '}
                 <EditableField
                   value={companyInfo.targetProjectsUpcoming}
                   onChange={(val) => updateCompanyInfo('targetProjectsUpcoming', val)}
                   as="span"
                 />{' '}
-                in Upcoming Year
+                <EditableField
+                  value={companyInfo.aboutMissionBadgeSuffix}
+                  onChange={(val) => updateCompanyInfo('aboutMissionBadgeSuffix', val)}
+                  as="span"
+                />
               </div>
             </div>
 
@@ -186,7 +189,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
                 <Eye size={24} />
               </div>
               <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0F172A', marginBottom: '12px' }}>
-                Our Vision
+                <EditableField
+                  value={companyInfo.aboutVisionTitle}
+                  onChange={(val) => updateCompanyInfo('aboutVisionTitle', val)}
+                  as="span"
+                />
               </h3>
               <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '16px' }}>
                 "
@@ -212,7 +219,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
                   fontWeight: 700,
                 }}
               >
-                Target Execution: Regional Infrastructure & Turnkey Projects
+                <EditableField
+                  value={companyInfo.aboutVisionBadge}
+                  onChange={(val) => updateCompanyInfo('aboutVisionBadge', val)}
+                  as="span"
+                />
               </div>
             </div>
           </div>
@@ -224,10 +235,18 @@ export default function AboutTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
-              OUR FOUNDERS & DIRECTORS
+              <EditableField
+                value={companyInfo.aboutLeadershipBadge}
+                onChange={(val) => updateCompanyInfo('aboutLeadershipBadge', val)}
+                as="span"
+              />
             </span>
             <h2 className="section-title" style={{ color: '#FFFFFF' }}>
-              Leadership Backed by Decades of Civil Engineering Success
+              <EditableField
+                value={companyInfo.aboutLeadershipTitle}
+                onChange={(val) => updateCompanyInfo('aboutLeadershipTitle', val)}
+                as="span"
+              />
             </h2>
           </div>
 
@@ -268,7 +287,7 @@ export default function AboutTab({ onOpenQuoteModal }) {
                   </button>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', paddingRight: isAdmin ? '40px' : 0 }}>
                   <div
                     style={{
                       width: '56px',
@@ -326,7 +345,11 @@ export default function AboutTab({ onOpenQuoteModal }) {
                 </p>
 
                 <h4 style={{ color: '#FFFFFF', fontSize: '0.88rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>
-                  Core Competencies & Sector Track Record:
+                  <EditableField
+                    value={companyInfo.aboutCompetenciesTitle}
+                    onChange={(val) => updateCompanyInfo('aboutCompetenciesTitle', val)}
+                    as="span"
+                  />
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {person.highlights && person.highlights.map((h, hIdx) => (
@@ -392,16 +415,24 @@ export default function AboutTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 50px auto' }}>
             <span className="badge-amber" style={{ marginBottom: '12px' }}>
-              OUR STRENGTHS
+              <EditableField
+                value={companyInfo.aboutStrengthsBadge}
+                onChange={(val) => updateCompanyInfo('aboutStrengthsBadge', val)}
+                as="span"
+              />
             </span>
             <h2 style={{ fontSize: '2.4rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0F172A' }}>
-              Why We Stand Out
+              <EditableField
+                value={companyInfo.aboutStrengthsTitle}
+                onChange={(val) => updateCompanyInfo('aboutStrengthsTitle', val)}
+                as="span"
+              />
             </h2>
           </div>
 
           <div className="responsive-grid">
-            {strengths.map((item, idx) => {
-              const IconComp = item.icon;
+            {strengthsList.map((item, idx) => {
+              const IconComp = strengthIcons[idx % strengthIcons.length] || Award;
               return (
                 <div
                   key={idx}
@@ -429,10 +460,19 @@ export default function AboutTab({ onOpenQuoteModal }) {
                     <IconComp size={22} />
                   </div>
                   <h3 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#0F172A', marginBottom: '8px' }}>
-                    {item.title}
+                    <EditableField
+                      value={item.title}
+                      onChange={(val) => updateStrength(idx, 'title', val)}
+                      as="span"
+                    />
                   </h3>
                   <p style={{ color: '#64748B', fontSize: '0.9rem', lineHeight: 1.55 }}>
-                    {item.desc}
+                    <EditableField
+                      value={item.desc}
+                      onChange={(val) => updateStrength(idx, 'desc', val)}
+                      as="span"
+                      multiline={true}
+                    />
                   </p>
                 </div>
               );
@@ -446,54 +486,65 @@ export default function AboutTab({ onOpenQuoteModal }) {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 60px auto' }}>
             <span className="badge-gold" style={{ marginBottom: '12px' }}>
-              MANPOWER BACKBONE
+              <EditableField
+                value={companyInfo.aboutWorkforceBadge}
+                onChange={(val) => updateCompanyInfo('aboutWorkforceBadge', val)}
+                as="span"
+              />
             </span>
             <h2 style={{ fontSize: '2.4rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#FFFFFF' }}>
-              Our Skilled Workforce & Operational Pillars
+              <EditableField
+                value={companyInfo.aboutWorkforceTitle}
+                onChange={(val) => updateCompanyInfo('aboutWorkforceTitle', val)}
+                as="span"
+              />
             </h2>
           </div>
 
           <div className="responsive-grid-small">
-            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{ color: '#F59E0B', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
-                Pillar 1
+            {pillarsList.map((pillar, idx) => (
+              <div
+                key={idx}
+                style={{
+                  backgroundColor: '#16263E',
+                  padding: '32px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }}
+              >
+                <div style={{ color: idx === 0 ? '#F59E0B' : idx === 1 ? '#EAB308' : '#D4AF37', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                  <EditableField
+                    value={pillar.badge}
+                    onChange={(val) => updatePillar(idx, 'badge', val)}
+                    as="span"
+                  />
+                </div>
+                <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '12px' }}>
+                  <EditableField
+                    value={pillar.title}
+                    onChange={(val) => updatePillar(idx, 'title', val)}
+                    as="span"
+                  />
+                </h3>
+                <p style={{ color: '#CBD5E1', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <EditableField
+                    value={pillar.desc}
+                    onChange={(val) => updatePillar(idx, 'desc', val)}
+                    as="span"
+                    multiline={true}
+                  />
+                </p>
               </div>
-              <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '12px' }}>
-                Engineers & Professionals
-              </h3>
-              <p style={{ color: '#CBD5E1', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                Our team designs, plans, and manages construction projects to meet safety standards and client requirements. Skilled tradespeople maintain buildings' structural integrity and functionality.
-              </p>
-            </div>
-
-            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{ color: '#EAB308', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
-                Pillar 2
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '12px' }}>
-                Labour Force
-              </h3>
-              <p style={{ color: '#CBD5E1', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                General laborers assist skilled tradespeople by performing tasks like moving materials, cleaning, digging, and basic construction, requiring physical strength, tool skills, and precise instruction following.
-              </p>
-            </div>
-
-            <div style={{ backgroundColor: '#16263E', padding: '32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{ color: '#D4AF37', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
-                Pillar 3
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', color: '#FFFFFF', marginBottom: '12px' }}>
-                Support Staff & Safety Officers
-              </h3>
-              <p style={{ color: '#CBD5E1', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                The administrative team oversees documentation, procurement, scheduling, and logistics. Dedicated safety officers ensure a safe work environment while HR manages recruitment and compliance.
-              </p>
-            </div>
+            ))}
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <button onClick={onOpenQuoteModal} className="btn-primary">
-              Contact Our Engineering Team <ChevronRight size={18} />
+              <EditableField
+                value={companyInfo.aboutCtaButton}
+                onChange={(val) => updateCompanyInfo('aboutCtaButton', val)}
+                as="span"
+              /> <ChevronRight size={18} />
             </button>
           </div>
         </div>

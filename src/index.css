@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -131,6 +132,15 @@ footer h1, footer h2, footer h3,
   line-height: 1.1;
   letter-spacing: -0.025em;
   color: #FFFFFF !important;
+}
+
+.page-banner-heading {
+  font-size: clamp(1.9rem, 4.5vw, 3.0rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #FFFFFF !important;
+  font-family: var(--font-heading);
 }
 
 /* Gradient Utilities */
@@ -360,6 +370,11 @@ footer h1, footer h2, footer h3,
   animation: 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards fadeIn;
 }
 
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.2); }
+}
+
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 28px 28px;
@@ -376,7 +391,7 @@ footer h1, footer h2, footer h3,
 }
 
 .section-padding {
-  padding: 85px 0;
+  padding: 80px 0;
 }
 
 .section-header-center {
@@ -503,6 +518,22 @@ footer h1, footer h2, footer h3,
 /* ===================================================
    PHONE & TABLET SPECIFIC OPTIMIZATIONS (Natural Feel)
    =================================================== */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+button, a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 @media (max-width: 900px) {
   .desktop-nav { display: none !important; }
   .mobile-menu-btn { display: flex !important; }
@@ -511,14 +542,17 @@ footer h1, footer h2, footer h3,
 }
 
 @media (max-width: 768px) {
+  body {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+  }
   .container {
-    padding: 0 18px;
+    padding: 0 20px;
   }
   .section-padding {
-    padding: 50px 0;
+    padding: 48px 0;
   }
   .section-header-center {
-    margin-bottom: 34px;
+    margin-bottom: 28px;
   }
   .responsive-grid {
     grid-template-columns: 1fr;
@@ -528,37 +562,70 @@ footer h1, footer h2, footer h3,
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
-  .mobile-stack-buttons {
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
+  .scope-ribbon-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px 12px !important;
   }
-  .mobile-stack-buttons > button,
-  .mobile-stack-buttons > a {
-    width: 100%;
-  }
-  
-  /* Hero section optimization on mobile */
   .hero-heading {
-    font-size: clamp(2rem, 8vw, 2.7rem) !important;
-    line-height: 1.12 !important;
-    margin-bottom: 16px !important;
+    font-size: clamp(2rem, 8vw, 2.75rem) !important;
+    line-height: 1.1 !important;
+    margin-bottom: 14px !important;
+  }
+  .page-banner-heading {
+    font-size: clamp(1.65rem, 7.5vw, 2.2rem) !important;
+    line-height: 1.15 !important;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .container {
     padding: 0 16px;
   }
   .section-padding {
-    padding: 42px 0;
+    padding: 40px 0;
+  }
+  .hero-metrics-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 12px 14px !important;
+    margin-top: 20px !important;
+  }
+  .mobile-stack-buttons {
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .mobile-stack-buttons > button,
+  .mobile-stack-buttons > a {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 12px 20px !important;
+    font-size: 0.94rem !important;
+    min-height: 48px !important;
+    border-radius: 8px !important;
+  }
+  .projects-tab-switcher {
+    max-width: 100% !important;
   }
   .hero-heading {
     font-size: clamp(1.85rem, 8.5vw, 2.35rem) !important;
   }
+  .card-padding {
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
   .responsive-grid-small {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .scope-ribbon-grid {
+    gap: 12px 8px !important;
   }
 }
 
@@ -690,6 +757,52 @@ body.show-cms-outlines .admin-inline-editable {
 
   .mobile-bottom-bar-btn-primary {
     flex: 1.4;
+  }
+}
+
+/* Floating ISO 9001 Certificate Hero Card */
+@keyframes heroFloatingGlow {
+  0%, 100% {
+    transform: translateY(0px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 25px rgba(245, 158, 11, 0.12);
+  }
+  50% {
+    transform: translateY(-8px);
+    box-shadow: 0 28px 55px rgba(0, 0, 0, 0.55), 0 0 35px rgba(245, 158, 11, 0.22);
+  }
+}
+
+.hero-cert-floating-card {
+  animation: heroFloatingGlow 6s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-cert-floating-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-10px) !important;
+  box-shadow: 0 32px 65px rgba(0, 0, 0, 0.6), 0 0 40px rgba(245, 158, 11, 0.3) !important;
+  border-color: rgba(245, 158, 11, 0.65) !important;
+}
+
+@media (max-width: 991px) {
+  .hero-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .hero-cert-col {
+    justify-content: center !important;
+    margin-top: 6px !important;
+  }
+  .hero-cert-floating-card {
+    max-width: 250px !important;
+    animation: none !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.2) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-cert-floating-card {
+    max-width: 220px !important;
   }
 }
 

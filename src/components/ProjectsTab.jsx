@@ -15,17 +15,22 @@ import {
   ChevronRight,
   X,
   Calendar,
-  Layers
+  Layers,
+  Image as ImageIcon
 } from 'lucide-react';
 
 export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initialView = 'projects' }) {
   const {
+    companyInfo,
+    updateCompanyInfo,
     projects,
     gallery,
     updateProject,
     updateGallery,
     addProject,
     deleteProject,
+    addGalleryItem,
+    deleteGalleryItem,
     isAdmin
   } = useCMS();
 
@@ -74,7 +79,11 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
         <div className="container">
           <div style={{ maxWidth: '800px' }}>
             <span className="badge-gold" style={{ marginBottom: '16px' }}>
-              OUR PORTFOLIO & ON-SITE GALLERY
+              <EditableField
+                value={companyInfo.projectsBannerBadge}
+                onChange={(val) => updateCompanyInfo('projectsBannerBadge', val)}
+                as="span"
+              />
             </span>
             <h1
               className="page-banner-heading"
@@ -86,10 +95,19 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                 marginBottom: '20px',
               }}
             >
-              Executed Projects & Gallery
+              <EditableField
+                value={companyInfo.projectsBannerTitle}
+                onChange={(val) => updateCompanyInfo('projectsBannerTitle', val)}
+                as="span"
+              />
             </h1>
             <p style={{ color: '#CBD5E1', fontSize: '1.08rem', lineHeight: 1.65 }}>
-              Explore CLM Group of Construction's structural achievements — including active 2026 target builds, commercial developments, and high-resolution on-site engineering photography.
+              <EditableField
+                value={companyInfo.projectsBannerDesc}
+                onChange={(val) => updateCompanyInfo('projectsBannerDesc', val)}
+                as="span"
+                multiline={true}
+              />
             </p>
           </div>
         </div>
@@ -211,18 +229,22 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                           position: 'absolute',
                           top: '12px',
                           right: '12px',
-                          zIndex: 10,
+                          zIndex: 30,
                           backgroundColor: '#EF4444',
                           color: '#FFFFFF',
                           border: 'none',
                           borderRadius: '50%',
-                          width: '32px',
-                          height: '32px',
+                          width: '34px',
+                          height: '34px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: 'pointer',
+                          boxShadow: '0 4px 14px rgba(239, 68, 68, 0.45)',
+                          transition: 'transform 0.2s ease, background-color 0.2s ease',
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                         title="Delete project"
                       >
                         <Trash2 size={16} />
@@ -237,8 +259,10 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                           onChange={(val) => updateProject(project.id, 'image', val)}
                           fallbackSrc="/ETP.jpg"
                           buttonLabel="Change Image"
+                          buttonPosition="bottom-right"
+                          buttonStyle={{ bottom: '12px', right: '12px' }}
                         />
-                        <div style={{ position: 'absolute', top: '14px', left: '14px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
+                        <div style={{ position: 'absolute', top: '12px', left: '12px', right: isAdmin ? '54px' : '12px', display: 'flex', gap: '8px', flexWrap: 'wrap', zIndex: 15 }}>
                           <span
                             style={{
                               backgroundColor: 'rgba(17, 29, 48, 0.92)',
@@ -469,6 +493,8 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                         onChange={(val) => updateGallery(item.id, 'src', val)}
                         fallbackSrc="/ETP.jpg"
                         buttonLabel="Change Photo"
+                        buttonPosition="bottom-left"
+                        buttonStyle={{ bottom: '12px', left: '12px' }}
                       />
                       <div
                         style={{
@@ -547,8 +573,74 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                         />
                       </p>
                     </div>
+
+                    {/* Admin Delete Gallery Item */}
+                    {isAdmin && (
+                      <div style={{ padding: '10px 20px 16px', borderTop: '1px solid #F1F5F9', display: 'flex', justifyContent: 'flex-end' }}>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (deleteGalleryItem && window.confirm('Remove this gallery photo?')) {
+                              deleteGalleryItem(item.id);
+                            }
+                          }}
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.08)',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            color: '#EF4444',
+                            borderRadius: '6px',
+                            padding: '6px 14px',
+                            fontSize: '0.78rem',
+                            fontWeight: 700,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <Trash2 size={13} /> Remove Photo
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
+
+                {/* Admin: Add New Gallery Photo */}
+                {isAdmin && addGalleryItem && (
+                  <div
+                    onClick={addGalleryItem}
+                    style={{
+                      backgroundColor: 'rgba(245, 158, 11, 0.03)',
+                      borderRadius: '14px',
+                      padding: '36px',
+                      border: '2px dashed rgba(245, 158, 11, 0.5)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '340px',
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      transition: 'all 0.25s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.08)';
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.03)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <PlusCircle size={48} style={{ color: '#F59E0B', marginBottom: '16px' }} />
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', color: '#F59E0B', fontWeight: 800, margin: 0 }}>
+                      Add Gallery Photo +
+                    </h3>
+                    <p style={{ color: '#64748B', fontSize: '0.85rem', marginTop: '10px' }}>
+                      Click to add a new photo to the site gallery
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -614,11 +706,11 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
               position: 'relative',
               maxWidth: '1000px',
               width: '100%',
-              backgroundColor: '#16263E',
-              borderRadius: '14px',
-              border: '1px solid rgba(255,255,255,0.14)',
+              backgroundColor: '#FFFFFF',
+              borderRadius: '16px',
+              border: '1px solid #E2E8F0',
               overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(15,30,54,0.6)',
+              boxShadow: '0 25px 65px rgba(15, 23, 42, 0.25)',
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -628,8 +720,8 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             <div
               style={{
                 padding: '16px 24px',
-                backgroundColor: '#111D30',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                backgroundColor: '#FFFFFF',
+                borderBottom: '1px solid #E2E8F0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -637,9 +729,9 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span className="badge-amber" style={{ fontSize: '0.75rem' }}>
-                  Image {selectedImageIndex + 1} of {filteredGallery.length}
+                  Image {selectedImageIndex + 1} of {gallery.length}
                 </span>
-                <span style={{ color: '#F59E0B', fontWeight: 600, fontSize: '0.88rem' }}>
+                <span style={{ color: '#D97706', fontWeight: 700, fontSize: '0.88rem' }}>
                   {selectedItem.tag}
                 </span>
               </div>
@@ -651,25 +743,30 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                   target="_blank"
                   rel="noreferrer"
                   style={{
-                    color: '#94A3B8',
+                    color: '#475569',
                     textDecoration: 'none',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
+                    gap: '6px',
                     fontSize: '0.82rem',
-                    padding: '6px 12px',
-                    background: 'rgba(255,255,255,0.06)',
+                    fontWeight: 600,
+                    padding: '7px 14px',
+                    background: '#F1F5F9',
+                    border: '1px solid #E2E8F0',
                     borderRadius: '6px',
+                    transition: 'all 0.2s ease',
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#E2E8F0'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#F1F5F9'}
                 >
                   <Download size={14} /> Full Image
                 </a>
                 <button
                   onClick={() => setSelectedImageIndex(null)}
                   style={{
-                    background: 'rgba(255,255,255,0.08)',
-                    border: 'none',
-                    color: '#FFFFFF',
+                    background: '#F1F5F9',
+                    border: '1px solid #E2E8F0',
+                    color: '#475569',
                     borderRadius: '50%',
                     width: '36px',
                     height: '36px',
@@ -677,6 +774,15 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#E2E8F0';
+                    e.currentTarget.style.color = '#0F172A';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F1F5F9';
+                    e.currentTarget.style.color = '#475569';
                   }}
                 >
                   <X size={20} />
@@ -688,7 +794,7 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             <div
               style={{
                 position: 'relative',
-                backgroundColor: '#000000',
+                backgroundColor: '#F8FAFC',
                 minHeight: '450px',
                 maxHeight: '65vh',
                 display: 'flex',
@@ -704,16 +810,16 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
 
               <button
                 onClick={() => {
-                  setSelectedImageIndex((selectedImageIndex - 1 + filteredGallery.length) % filteredGallery.length);
+                  setSelectedImageIndex((selectedImageIndex - 1 + gallery.length) % gallery.length);
                 }}
                 style={{
                   position: 'absolute',
                   left: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'rgba(17, 29, 48, 0.85)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#FFFFFF',
+                  backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                  border: '1px solid #E2E8F0',
+                  color: '#0F172A',
                   width: '44px',
                   height: '44px',
                   borderRadius: '50%',
@@ -721,7 +827,16 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
                   transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F59E0B';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.92)';
+                  e.currentTarget.style.color = '#0F172A';
                 }}
               >
                 <ChevronLeft size={24} />
@@ -729,16 +844,16 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
 
               <button
                 onClick={() => {
-                  setSelectedImageIndex((selectedImageIndex + 1) % filteredGallery.length);
+                  setSelectedImageIndex((selectedImageIndex + 1) % gallery.length);
                 }}
                 style={{
                   position: 'absolute',
                   right: '16px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'rgba(17, 29, 48, 0.85)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#FFFFFF',
+                  backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                  border: '1px solid #E2E8F0',
+                  color: '#0F172A',
                   width: '44px',
                   height: '44px',
                   borderRadius: '50%',
@@ -746,7 +861,16 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
                   transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F59E0B';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.92)';
+                  e.currentTarget.style.color = '#0F172A';
                 }}
               >
                 <ChevronRight size={24} />
@@ -754,14 +878,14 @@ export default function ProjectsTab({ onSelectProject, onOpenQuoteModal, initial
             </div>
 
             {/* Caption & Location */}
-            <div style={{ padding: '20px 24px', backgroundColor: '#16263E' }}>
-              <h3 style={{ color: '#FFFFFF', fontSize: '1.25rem', fontFamily: 'var(--font-heading)', fontWeight: 800, marginBottom: '6px' }}>
+            <div style={{ padding: '20px 24px', backgroundColor: '#FFFFFF', borderTop: '1px solid #E2E8F0', color: '#0F172A' }}>
+              <h3 style={{ color: '#0F172A', fontSize: '1.25rem', fontFamily: 'var(--font-heading)', fontWeight: 800, marginBottom: '6px' }}>
                 {selectedItem.title}
               </h3>
-              <div style={{ color: '#F59E0B', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+              <div style={{ color: '#D97706', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
                 <MapPin size={14} /> {selectedItem.location}
               </div>
-              <p style={{ color: '#94A3B8', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
                 {selectedItem.description}
               </p>
             </div>

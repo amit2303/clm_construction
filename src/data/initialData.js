@@ -16,7 +16,109 @@ export const initialCompanyInfo = {
     { year: "2023 (Beginning)", percentage: "1.0%" },
     { year: "2023 - 2024", percentage: "23.8%" },
     { year: "2024 - 2025", percentage: "75.2%" }
-  ]
+  ],
+
+  // About Page Texts
+  aboutBannerBadge: "ABOUT CLM GROUP OF CONSTRUCTION",
+  aboutBannerTitle: "Built on Trust, Precision Engineering & Craftsmanship",
+  aboutMissionTitle: "Our Mission",
+  aboutMissionBadgePrefix: "Targeting",
+  aboutMissionBadgeSuffix: "in Upcoming Year",
+  aboutVisionTitle: "Our Vision",
+  aboutVisionBadge: "Target Execution: Regional Infrastructure & Turnkey Projects",
+  aboutLeadershipBadge: "OUR FOUNDERS & DIRECTORS",
+  aboutLeadershipTitle: "Leadership Backed by Decades of Civil Engineering Success",
+  aboutCompetenciesTitle: "Core Competencies & Sector Track Record:",
+  aboutStrengthsBadge: "OUR STRENGTHS",
+  aboutStrengthsTitle: "Why We Stand Out",
+  aboutStrengths: [
+    {
+      title: "Team Expertise",
+      desc: "A highly skilled workforce with experience in various construction projects ensuring top-tier quality and execution efficiency."
+    },
+    {
+      title: "Efficient Operations",
+      desc: "Streamlined processes, effective project management, and a focus on cost control contributing to timely project completion within budget."
+    },
+    {
+      title: "Strong Reputation",
+      desc: "A history of successful projects and satisfied clients leading to positive word-of-mouth referrals and a trusted brand image."
+    },
+    {
+      title: "Subcontractor Relationships",
+      desc: "Building strong partnerships with reliable subcontractors guarantees access to qualified workers and ensures a smooth workflow."
+    }
+  ],
+  aboutWorkforceBadge: "MANPOWER BACKBONE",
+  aboutWorkforceTitle: "Our Skilled Workforce & Operational Pillars",
+  aboutPillars: [
+    {
+      badge: "Pillar 1",
+      title: "Engineers & Professionals",
+      desc: "Our team designs, plans, and manages construction projects to meet safety standards and client requirements. Skilled tradespeople maintain buildings' structural integrity and functionality."
+    },
+    {
+      badge: "Pillar 2",
+      title: "Labour Force",
+      desc: "General laborers assist skilled tradespeople by performing tasks like moving materials, cleaning, digging, and basic construction, requiring physical strength, tool skills, and precise instruction following."
+    },
+    {
+      badge: "Pillar 3",
+      title: "Support Staff & Safety Officers",
+      desc: "The administrative team oversees documentation, procurement, scheduling, and logistics. Dedicated safety officers ensure a safe work environment while HR manages recruitment and compliance."
+    }
+  ],
+  aboutCtaButton: "Contact Our Engineering Team",
+
+  // Services Page Texts
+  servicesBannerBadge: "OUR CAPABILITIES & SCOPE",
+  servicesBannerTitle: "Comprehensive Civil & Structural Engineering Services",
+  servicesBannerDesc: "CLM Group of Construction handles the entire life-cycle of building and developing structures — from structural IS code planning and architectural design to full turnkey physical construction.",
+  servicesIdealSectorLabel: "Ideal Project Sector:",
+  servicesScopeHeading: "Detailed Scope of Work",
+  servicesBenefitsHeading: "Key Strategic Benefits:",
+  servicesEquipmentBadge: "EQUIPMENT INVENTORY",
+  servicesEquipmentTitle: "Machinery & Equipment Fleet",
+  servicesEquipmentSubtitle: "CLM Construction Company deploys high-capacity machinery across earthmoving, material handling, concrete, power tools, and GPS surveying.",
+  servicesDeployedLabel: "Deployed Equipment:",
+  servicesCtaHeading: "Need Custom Technical or Construction Specifications?",
+  servicesCtaSubtitle: "Speak directly with our Engineering Cell for structural analysis, load calculations, and site evaluation.",
+  servicesCtaButton: "Contact Engineering Cell",
+
+  // Projects Page Texts
+  projectsBannerBadge: "OUR PORTFOLIO & ON-SITE GALLERY",
+  projectsBannerTitle: "Executed Projects & Gallery",
+  projectsBannerDesc: "Explore CLM Group of Construction's structural achievements — including active 2026 target builds, commercial developments, and high-resolution on-site engineering photography.",
+
+  // Gallery Page Texts
+  galleryBannerBadge: "ON-SITE PHOTOGRAPHY & ARCHIVE",
+  galleryBannerTitle: "CLM Project Gallery",
+  galleryBannerDesc: "Authentic on-site construction photographs capturing excavation, IS code RCC structural framing, industrial plant builds (Veeba Food ETP & Warehouse), and commercial elevations across North India.",
+
+  // Contact Page Texts
+  contactBannerBadge: "DIRECT CONTACT & INQUIRIES",
+  contactBannerTitle: "Contact CLM Construction Company",
+  contactBannerDesc: "Reach out directly to our civil engineering leadership team for project discussions, site visits, structural analysis, or tender proposals.",
+  contactPhoneBadge: "DIRECT PHONE & EMAIL",
+  contactPhoneTitle: "Call or Email Our Team",
+  contactPhoneDesc: "Connect directly with our engineering officers and project managers. No forms or waiting — instant phone call and email support.",
+  contactOfficeBadge: "OFFICE LOCATION",
+  contactOfficeTitle: "Visit Our Mathura Office",
+  contactOfficeDesc: "Located in the heart of Mathura with quick transit access to Delhi-NCR, Haryana, and Rajasthan industrial corridors.",
+
+  // Footer Texts
+  footerAbout: "A respected regional contractor in Uttar Pradesh, specializing in full-cycle project planning, civil framing, IS Code structural design, residential villas, and commercial/industrial infrastructure.",
+  footerNavTitle: "Quick Navigation",
+  footerContactTitle: "Verified Office Contact",
+  footerCtaTitle: "Have a Project in Mind?",
+  footerCtaDesc: "Get in touch with our engineering team for preliminary budget estimations, site inspections, or structural planning.",
+  footerCtaButton: "Contact Engineering Team",
+  footerCopyright: "© 2023 - 2026 CLM Group of Construction. All rights reserved. Quality is our Blueprint.",
+
+  // Header Texts
+  headerCertText: "ISO 9001: 2015 Certified",
+  headerRegionText: "Operating: Mathura & Regional U.P.",
+  headerCtaButton: "Get a Quote"
 };
 
 export const initialLeadership = [
@@ -444,5 +546,32 @@ export const initialHomeStats = {
   featuredBannerTitle: "Vrindavan Villa Construction (2,250 sq.ft)",
   featuredBannerSubtitle: "Delivered on time, within budget ₹54.00 Lakhs",
   ctaHeading: "Ready to Start Your Construction Project?",
-  ctaSubtitle: "Contact CLM Construction Company in Mathura for expert planning, IS code structural engineering, and estimates."
+  ctaSubtitle: "Contact CLM Construction Company in Mathura for expert planning, IS code structural engineering, and estimates.",
+
+  // Home Section Badges & Headings
+  heroBtn1: "Direct Contact",
+  heroBtn2: "View Projects",
+  heroBtn3: "Contact Us",
+  homeServicesBadge: "OUR EXPERTISE",
+  homeServicesTitle: "Civil Engineering Excellence",
+  homeServicesSubtitle: "Delivering high-performance structural and architectural solutions tailored to residential and heavy industrial sectors.",
+  homeServicesBtn: "View All Dedicated Service Verticals",
+  homeWhyChooseBadge: "WHY CHOOSE CLM CONSTRUCTION",
+  homeWhyPoint1Title: "Engineering Cell & IS Code Compliance",
+  homeWhyPoint1Desc: "Our in-house engineers design structural analysis per IS code, civil, PHE, and electrical systems, converting blueprints into flawless real-world structures.",
+  homeWhyPoint2Title: "38+ Years Industrial Background & Leadership",
+  homeWhyPoint2Desc: "Co-founder Mr. Dinesh Kumar Mishra brings nearly four decades of hands-on industrial execution experience across Food & Beverage, Textile, and Auto sectors.",
+  homeWhyPoint3Title: "Subcontractor Partnerships & Cost Control",
+  homeWhyPoint3Desc: "Strong partnerships with reliable subcontractors guarantee access to qualified skilled workers, maintaining smooth workflows without timeline delays.",
+  homeIsoBadge: "QUALITY GUARANTEED",
+  homeIsoTitle: "ISO 9001: 2015 Certified",
+  homeIsoDesc: "We adhere strictly to international quality management systems. Our ISO 9001:2015 certification reflects our commitment to excellence, continuous improvement, and the highest standards of safety and compliance in all our construction projects.",
+  homePortfolioBadge: "PORTFOLIO",
+  homePortfolioTitle: "Signature Projects",
+  homePortfolioBtn: "View All Projects",
+  homeLeadershipBadge: "LEADERSHIP & EXPERIENCE",
+  homeLeadershipTitle: "Guided by Decades of Industrial Civil Expertise",
+  homeLeadershipCredentials: "Key Credentials:",
+  homeCtaEyebrow: "Turnkey Civil Engineering Consultations",
+  homeCtaBtn: "Contact Engineering Team"
 };

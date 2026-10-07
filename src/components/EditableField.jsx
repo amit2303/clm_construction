@@ -13,12 +13,15 @@ export default function EditableField({
   const { isAdmin } = useCMS();
   const elementRef = useRef(null);
   const isFocusedRef = useRef(false);
+  const initialValueRef = useRef(value);
 
   // Sync value from props when not actively focused/typing
   useEffect(() => {
     if (elementRef.current && !isFocusedRef.current) {
-      if (elementRef.current.innerText !== (value || '')) {
-        elementRef.current.innerText = value || '';
+      const current = elementRef.current.innerText;
+      const next = value || '';
+      if (current !== next) {
+        elementRef.current.innerText = next;
       }
     }
   }, [value, isAdmin]);
@@ -32,48 +35,62 @@ export default function EditableField({
   }
 
   const handleInput = (e) => {
-    const newText = e.currentTarget.innerText;
-    onChange(newText);
+    onChange(e.currentTarget.innerText);
   };
 
   const handleFocus = (e) => {
     isFocusedRef.current = true;
-    e.currentTarget.style.outline = '2px solid #F59E0B';
-    e.currentTarget.style.outlineOffset = '2px';
-    e.currentTarget.style.borderRadius = '3px';
+    const el = e.currentTarget;
+    el.style.outline = '2px solid #F59E0B';
+    el.style.outlineOffset = '3px';
+    el.style.borderRadius = '3px';
+    el.style.boxShadow = '0 0 12px rgba(245, 158, 11, 0.28)';
     const isGradient = style && (style.WebkitBackgroundClip === 'text' || style.backgroundClip === 'text');
     if (!isGradient) {
-      e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.08)';
+      el.style.backgroundColor = 'rgba(245, 158, 11, 0.07)';
     }
-    e.currentTarget.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.25)';
   };
 
   const handleBlur = (e) => {
     isFocusedRef.current = false;
-    e.currentTarget.style.outline = '';
-    e.currentTarget.style.outlineOffset = '';
-    e.currentTarget.style.backgroundColor = '';
-    e.currentTarget.style.boxShadow = '';
+    const el = e.currentTarget;
+    el.style.outline = '';
+    el.style.outlineOffset = '';
+    el.style.backgroundColor = '';
+    el.style.boxShadow = '';
 
-    const finalVal = e.currentTarget.innerText;
+    const finalVal = el.innerText;
     if (finalVal !== value) {
       onChange(finalVal);
     }
   };
 
   const handleKeyDown = (e) => {
-    // If not multiline (like headings, titles, phone numbers), prevent Enter key from adding newlines
     if (!multiline && e.key === 'Enter') {
       e.preventDefault();
       e.currentTarget.blur();
     }
+    // Ctrl+Z / Cmd+Z — allow browser's native undo inside contentEditable
   };
 
   const handlePaste = (e) => {
-    // Prevent rich HTML paste — only paste plain text
+    // Prevent rich HTML paste — insert plain text only
     e.preventDefault();
-    const text = (e.clipboardData || window.clipboardData).getData('text');
-    document.execCommand('insertText', false, text);
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    // Use modern insertText approach with fallback
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      const textNode = document.createTextNode(text);
+      range.insertNode(textNode);
+      range.setStartAfter(textNode);
+      range.setEndAfter(textNode);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+    // Trigger onChange after paste
+    onChange(e.currentTarget.innerText + text);
   };
 
   const handleClick = (e) => {
@@ -89,6 +106,8 @@ export default function EditableField({
       style={{
         ...style,
         cursor: 'text',
+        minWidth: '20px',
+        display: Component === 'span' ? 'inline-block' : undefined,
       }}
       onClick={handleClick}
       onInput={handleInput}
@@ -96,10 +115,9 @@ export default function EditableField({
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
-      title="Admin: Click and type directly to edit text"
+      title="Admin: Click and type directly to edit"
       data-placeholder={placeholder}
-    >
-      {value}
-    </Component>
+      dangerouslySetInnerHTML={{ __html: initialValueRef.current }}
+    />
   );
 }
