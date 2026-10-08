@@ -241,6 +241,7 @@ const server = http.createServer(async (req, res) => {
 
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
+  console.log(`[REQ ${new Date().toISOString()}] ${req.method} ${pathname}`);
 
   // -----------------------------------------------------------
   // API: ADMIN LOGIN
@@ -478,7 +479,21 @@ const server = http.createServer(async (req, res) => {
         'Content-Type': contentType,
         'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=31536000, immutable'
       });
-      return fs.createReadStream(filePath).pipe(res);
+      const stream = fs.createReadStream(filePath);
+      stream.on('error', () => {
+        if (!res.headersSent) {
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.end('Server Error');
+        }
+      });
+      return stream.pipe(res);
+    }
+
+    // Only route page navigations (requests without extension or .html) to SPA fallback
+    const ext = path.extname(safePath).toLowerCase();
+    if (ext && ext !== '.html') {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      return res.end('404 Not Found');
     }
 
     // SPA fallback: return index.html for route URLs (non-asset requests)
@@ -497,7 +512,7 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`===================================================`);
   console.log(`  CLM CONSTRUCTION PRODUCTION SERVER`);
   console.log(`  > Local:   http://localhost:${PORT}/`);

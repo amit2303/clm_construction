@@ -75,6 +75,16 @@ export default function SaveButton() {
             bottom: 24px !important;
           }
         }
+        @media (max-width: 640px) {
+          .save-btn-floating {
+            right: 12px !important;
+            bottom: calc(64px + 12px) !important;
+          }
+          .save-btn-floating button {
+            padding: 10px 18px !important;
+            font-size: 0.82rem !important;
+          }
+        }
       `}</style>
     </div>
   );

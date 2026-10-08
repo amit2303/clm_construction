@@ -162,6 +162,7 @@ export function CMSProvider({ children }) {
             if (serverData.leadership) setLeadership(serverData.leadership);
             if (serverData.equipment) setEquipment(serverData.equipment);
             if (serverData.gallery) setGallery(serverData.gallery);
+            localStorage.setItem(`${STORAGE_KEY}_timestamp`, (serverTimestamp || Date.now()).toString());
           }
         }
       } catch {
@@ -214,17 +215,19 @@ export function CMSProvider({ children }) {
         },
         body: JSON.stringify(payload)
       });
+      setHasUnsavedChanges(false);
+      setChangeCount(0);
+      setSaveStatus('saved');
     } catch {
       // Graceful fallback if server API endpoint is not running
     }
   }, []);
 
-  // 1. INSTANT CONTINUOUS AUTO-SAVE (Runs whenever any data state changes)
+  // 1. INSTANT CONTINUOUS AUTO-SAVE (Runs whenever any data state changes AND unsaved changes exist)
   // Ensures changes are NEVER lost on page refresh, navigation, or browser close!
   useEffect(() => {
-    // Only auto-save after initial component mount
-    if (!isHydratedRef.current) {
-      isHydratedRef.current = true;
+    // Only auto-save after initial component mount AND when user has actually made edits
+    if (!isHydratedRef.current || !hasUnsavedChanges) {
       return;
     }
 
@@ -254,7 +257,7 @@ export function CMSProvider({ children }) {
       clearTimeout(localTimer);
       clearTimeout(serverTimer);
     };
-  }, [companyInfo, homeStats, services, projects, leadership, equipment, gallery, persistToLocalStorage, persistToServerDisk]);
+  }, [companyInfo, homeStats, services, projects, leadership, equipment, gallery, hasUnsavedChanges, persistToLocalStorage, persistToServerDisk]);
 
   // 2. IMMEDIATE BEFOREUNLOAD & PAGEHIDE SAFETY NET
   // Synchronously commits everything to localStorage before browser reloads or tab closes
